@@ -1,9 +1,9 @@
 import React from 'react'
 
-const RegisterPlate = () => {
+const RegisterPlatePage = () => {
   return (
     <div>RegisterPlate</div>
   )
 }
 
-export default RegisterPlate
+export default RegisterPlatePage
