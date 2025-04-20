@@ -29,6 +29,18 @@ const RegisterPlatePage = () => {
         </>
       );
     };
+
+    const handlePriceInput = (e) => {
+      const value = e.target.value;
+
+      if (isNaN(value) || value === "") {
+        return; // If it's not a number, don't update the state
+      }
+    
+    
+        setPrice(value); // Allow empty input or positive numbers
+      
+    }
     
 
 
@@ -47,7 +59,7 @@ const RegisterPlatePage = () => {
     </div>
     <div className ="form-group">
       <label htmlFor="plate-price">Price:</label>
-      <input name="plate-price" type="text" value={price} onChange={(e) => setPrice(e.target.value)} />
+      <input name="plate-price"  type="text" value={price} onChange={handlePriceInput} />
     </div>
     <div className="form-group">
       <label htmlFor="">Available: </label>
