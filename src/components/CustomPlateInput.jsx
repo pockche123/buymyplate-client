@@ -1,7 +1,7 @@
 import React from 'react'
 import bannedWordsData from '../data/banned_words.json'
 
-const CustomPlateInput = ({setBannedWordFound, setCustomPlate}) => {
+const CustomPlateInput = ({setBannedWordFound, customPlate, setCustomPlate}) => {
     const bannedWords = bannedWordsData.banned_words;
     const handleCustomPlate = (e) => {
         const value = e.target.value.toUpperCase();

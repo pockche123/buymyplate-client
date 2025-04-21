@@ -1,6 +1,7 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import { createVehiclePlate, updateVehiclePlate } from '../api/vehiclePlateApi';
 import { toast } from "react-toastify";
+import { ERROR_MESSAGES } from '../constants';
 
 
 const usePlateform = ({mode, initialData, onSubmit}) => {
@@ -90,7 +91,7 @@ const usePlateform = ({mode, initialData, onSubmit}) => {
 
 
 
-  return (
+  return {
     mode,
     values,
     setValues,
@@ -107,7 +108,9 @@ const usePlateform = ({mode, initialData, onSubmit}) => {
     regionTags,
     setRegionTags,
     errors,
+    setErrors,
     bannedWordFound,
+    setBannedWordFound,
     bothPresentError,
     formTitle,
     isViewMode,
@@ -115,7 +118,7 @@ const usePlateform = ({mode, initialData, onSubmit}) => {
     setCustomerId,
     renderErrors,
     handleSubmit
-  )
+  }
 }
 
 export default usePlateform

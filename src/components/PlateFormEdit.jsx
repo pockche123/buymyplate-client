@@ -3,8 +3,10 @@ import RegionDropDown from './RegionDropDown/RegionDropDown'
 import StandardRegPlateInput from './StandardRegPlateInput'
 import AvailabilityToggle from './AvailabilityToggle'
 import CustomPlateInput from './CustomPlateInput'
+import PriceInput from './PriceInput'
 
 const PlateFormEdit = ({
+    mode,
     values, setValues,
   customPlate, setCustomPlate,
   price, setPrice,
@@ -13,13 +15,15 @@ const PlateFormEdit = ({
   selectTag, setSelectTag,
   regionTags, setRegionTags,
   handleSubmit,
-  errors, setBannedWordFound,
+  errors, setErrors, setBannedWordFound,
   bannedWordFound,
   bothPresentErr
 
 }) => {
     const regionDropDownProps = { selectTag, setSelectTag, selectedRegion, setSelectedRegion, regionTags, setRegionTags };
-    const regplateProps = { values, setValues, errors };
+    const regplateProps = { values, setValues, errors, setErrors };
+
+    console.log("this is mode: ", mode)
 
   return (
     <form onSubmit={handleSubmit}>
@@ -31,7 +35,7 @@ const PlateFormEdit = ({
           <StandardRegPlateInput props={regplateProps} />
         </div>
         <ul>or</ul>
-        <CustomPlateInput setBannedWordFound={setBannedWordFound} setCustomPlate={setCustomPlate}/>
+        <CustomPlateInput setBannedWordFound={setBannedWordFound} customPlate={customPlate} setCustomPlate={setCustomPlate}/>
       </div>
 
       <PriceInput price={price} setPrice={setPrice} />
@@ -40,7 +44,7 @@ const PlateFormEdit = ({
       <button 
         type="submit" 
         className={`btn ${price > 0 ? 'btn-secondary' : 'btn-light'}`}
-        disabled={!price || errors.some(e => e) || bothPresentError}
+        disabled={!price || errors.some(e => e) || bothPresentErr}
       >
         {mode === 'create' ? 'Register' : 'Update'}
         </button>
