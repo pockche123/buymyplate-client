@@ -55,7 +55,7 @@ const StandardRegPlateInput = ({props}) => {
      const placeholders = ['LL', 'NN', 'LLL'];
    
      return (
-       <div style={{ display: 'flex', gap: '1rem' }}>
+       <div style={{ display: 'flex', gap: '1rem', border:'1px solid red' }}>
          {values?.map((val, idx) => (
            <input
              key={idx}

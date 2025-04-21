@@ -6,6 +6,8 @@ import { createVehiclePlate } from "../api/vehiclePlateApi";
 // import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import bannedWordsData from '../data/banned_words.json'
+import RegionDropDown from "../components/RegionDropDown/RegionDropDown";
+
 
 const RegisterPlatePage = () => {
   const [values, setValues] = useState(["", "", ""]);
@@ -18,9 +20,9 @@ const RegisterPlatePage = () => {
   let bothPlatePresentErrMessage = "A plate cannot be both STANDARD and CUSTOM.";
   let bannedWordMessage = "This registration plate contains restricted or inappropriate content.";
   const[bannedWordFound, setBannedWordFound] = useState(false)
-  
   const [customPlate, setCustomPlate] = useState("");
   const bannedWords = bannedWordsData.banned_words;
+
 
   const renderErrors = () => {
 
@@ -102,6 +104,8 @@ const RegisterPlatePage = () => {
       <h3>Register a new pate - Standard</h3>
 
       {renderErrors()}
+
+      {RegionDropDown()}
 
       <form onSubmit={handleRegisterStandardPlate}>
         <div className="form-group">
