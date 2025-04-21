@@ -10,8 +10,8 @@ import RegionDropDown from "../components/RegionDropDown/RegionDropDown";
 
 
 const RegisterPlatePage = () => {
-  const [values, setValues] = useState(["", "", ""]);
-  const [errors, setErrors] = useState([false, false, false]);
+  const [values, setValues] = useState([ "", ""]);
+  const [errors, setErrors] = useState([false, false]);
   const regplateProps = { values, setValues, errors, setErrors };
   const [price, setPrice] = useState('');
   const [available, setAvailable] = useState(true);
@@ -22,15 +22,21 @@ const RegisterPlatePage = () => {
   const[bannedWordFound, setBannedWordFound] = useState(false)
   const [customPlate, setCustomPlate] = useState("");
   const bannedWords = bannedWordsData.banned_words;
+  const [selectedRegion, setSelectedRegion] = useState('Select Region');
+  const [selectTag, setSelectTag] = useState('Select Tag')
+  const [regionTags, setRegionTags] = useState([])
+  const regionDropDownProps = {selectTag, setSelectTag, selectedRegion, setSelectedRegion, regionTags, setRegionTags}
+
+
 
 
   const renderErrors = () => {
 
     return (
       <>
-        {errors.some(err => err) || values.some((v)=> v.trim() !=="") && bannedWordFound && <h3>Error Found:</h3>}
-        {errors[1] && <li>{numErrMessage}</li>}
-        {(errors[0] || errors[2]) && <li>{strErrMessage}</li>}
+        {(errors[0] || errors[1] || bannedWordFound || selectTag.length == 0) &&  <h3>Error Found:</h3>}
+        {errors[0] && <li>{numErrMessage}</li>}
+        {(errors[1]) && <li>{strErrMessage}</li>}
         {values.some((v) => v.trim() !== "") && customPlate.length > 0 && (
           <li>{bothPlatePresentErrMessage}</li>
         )}
@@ -68,7 +74,7 @@ const RegisterPlatePage = () => {
 
 
     const body = {
-      plateNumber: customPlate.length > 0 ? customPlate: values[0] + values[1] + ' ' + values[2],
+      plateNumber: customPlate.length > 0 ? customPlate: selectTag + values[0] + ' ' + values[1],
       personalised: false,
       available: available,
       price: Number(price),
@@ -78,10 +84,13 @@ const RegisterPlatePage = () => {
       .then((res) => {
         console.log("Vehicle plate created:", res);
         toast.success("New vehicle plate registered!");
-        setValues(["", "", ""]);
+        setValues(["", ""]);
         setPrice(0);
         setAvailable(true);
-        setErrors([false, false, false]);
+        setErrors([false, false]);
+        setSelectedRegion('Select Region')
+        setRegionTags([])
+        setCustomPlate("")
       })
       .catch((e) => {
         console.log(e);
@@ -90,8 +99,14 @@ const RegisterPlatePage = () => {
   };
 
   const showButton = () => {
-    return !errors.some((err) => err) &&
-      values.every((v) => v.trim() !== "") ^ (customPlate.length > 0) &&
+
+
+    let checkForErrors = !errors.some((err) => err)
+    let checkForEmptyReg = (values[0].length == 2 && values[1].length == 3)^ (customPlate.length > 0)
+    let checkForTagSelect = selectTag == ''  || selectTag != "Select Tag"
+  
+    return  checkForErrors &&
+       checkForEmptyReg &&  checkForTagSelect &&
       price > 0 ? (
       <button>Register</button>
     ) : (
@@ -101,15 +116,16 @@ const RegisterPlatePage = () => {
 
   return (
     <>
-      <h3>Register a new pate - Standard</h3>
+      <h3>Register a new plate</h3>
 
       {renderErrors()}
 
-      {RegionDropDown()}
+
 
       <form onSubmit={handleRegisterStandardPlate}>
-        <div className="form-group">
+      <div style={{ display: 'flex', gap: '1rem', border:'1px solid red' }}>
           <label className="inline">Registration number:</label>
+          <RegionDropDown props={regionDropDownProps}/>
           <StandardRegPlateInput props={regplateProps} />
           <ul>or</ul>
           <div>
@@ -123,7 +139,7 @@ const RegisterPlatePage = () => {
             />
           </div>
         </div>
-
+       
         <div className="form-group">
           <label>Price:</label>
           <input

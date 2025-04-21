@@ -5,11 +5,11 @@ import '../RegionDropDown/RegionDropDown.css'
 
 
 
-const RegionDropDown = () => {
+const RegionDropDown = ({props}) => {
     const tags = Object.keys(memorytags);
-    const [regionTags, setRegionTags] = useState([])
-    const [selectedRegion, setSelectedRegion] = useState('Select Region');
-    const [selectTag, setSelectTag] = useState('')
+  
+    const {selectTag, setSelectTag, selectedRegion, setSelectedRegion, regionTags, setRegionTags} = props
+ 
 
     const handleSelectRegion = (region) => {
         setRegionTags(memorytags[region])
@@ -39,14 +39,22 @@ const RegionDropDown = () => {
     </Dropdown.Menu>
   </Dropdown>
   {
-    regionTags.length > 0 && (
-        <ul>
+
+    regionTags && regionTags.length > 0 && (
+
+      <Dropdown>
+            <Dropdown.Toggle  id="dropdown-basic">
+      {selectTag}
+    </Dropdown.Toggle>
+        <Dropdown.Menu>
             {regionTags.map((re, idx) => 
-            <li key={idx} className="tag-item" onClick={() => handleSelectTag(re)}>{re}</li>
+            <Dropdown.Item key={idx} className="tag-item" onClick={() => handleSelectTag(re)}>{re}</Dropdown.Item>
 )}
-        </ul>
+        </Dropdown.Menu>
+      </Dropdown>
     )
   }
+
   </>
   )
 }
