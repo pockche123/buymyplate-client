@@ -1,4 +1,7 @@
 import React from 'react'
+import { createVehiclePlate, updateVehiclePlate } from '../api/vehiclePlateApi';
+import { toast } from "react-toastify";
+
 
 const usePlateform = ({mode, initialData, onSubmit}) => {
      // Initialize state from props
@@ -43,14 +46,75 @@ const usePlateform = ({mode, initialData, onSubmit}) => {
         customerId: customerId,
       };
 
+      try{
+        if(mode === 'create'){
+            await createVehiclePlate(body); 
+            toast.success("New vehicle plate registered!")
+            resetForm();
+        } else if (mode === 'edit'){
+            await updateVehiclePlate(initialData.id, body); 
+            toast.success("Plate updated successfully!")
+    
+        }
+        onSubmit?.();
+    
+      } catch(error){
+        console.log(error)
+        toast.error(`Operation failed: ${error.message}`);
+
+      }
 
   }
+
+  const resetForm = () => {
+    if (mode === 'create') {
+        setValues(["", ""]);
+        setPrice('');
+        setAvailable(true);
+        setCustomPlate("");
+        setSelectedRegion('Select Region');
+        setSelectTag('Select Tag');
+      }
+  }
+
+  const renderErrors = () => (
+    <div className="error-block">
+      {(errors[0] || errors[1] || bannedWordFound || selectTag.length === 0) && <h5>Error Found!</h5>}
+      {errors[0] && <li>{ERROR_MESSAGES.number}</li>}
+      {errors[1] && <li>{ERROR_MESSAGES.string}</li>}
+      {bothPresentError && <li>{ERROR_MESSAGES.bothPresent}</li>}
+      {bannedWordFound && <li>{ERROR_MESSAGES.bannedWord}</li>}
+    </div>
+  );
 
 
 
 
   return (
-    <div>usePlateform</div>
+    mode,
+    values,
+    setValues,
+    customPlate,
+    setCustomPlate,
+    price,
+    setPrice,
+    available,
+    setAvailable,
+    selectedRegion,
+    setSelectedRegion,
+    selectTag,
+    setSelectTag,
+    regionTags,
+    setRegionTags,
+    errors,
+    bannedWordFound,
+    bothPresentError,
+    formTitle,
+    isViewMode,
+    customerId,
+    setCustomerId,
+    renderErrors,
+    handleSubmit
   )
 }
 
