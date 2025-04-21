@@ -7,11 +7,13 @@ import PlateFormView from './PlateFormView';
 
 const PlateForm = ({
     mode ="create",
-    initialData = null
+    initialData = null, 
+    onSubmit
 }) => {
     const form = usePlateform({
         mode,
-        initialData
+        initialData,
+        onSubmit
     })
 
   return (
