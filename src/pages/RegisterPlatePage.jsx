@@ -4,8 +4,7 @@ import { useRef, useState } from "react";
 import "../assets/button.css";
 import { createVehiclePlate } from "../api/vehiclePlateApi";
 // import { useNavigate } from "react-router-dom";
-import { toast } from 'react-toastify';
-
+import { toast } from "react-toastify";
 
 const RegisterPlatePage = () => {
   const [values, setValues] = useState(["", "", ""]);
@@ -15,13 +14,20 @@ const RegisterPlatePage = () => {
   const [available, setAvailable] = useState(true);
   let strErrMessage = "Letters only accepted";
   let numErrMessage = "Numbers only accepted";
+  let bothPlatePresentErrMessage ="Registration plate cannot be both STANDARD and CUSTOM";
+  const [customPlate, setCustomPlate] = useState("");
 
   const renderErrors = () => {
-    if (!errors.some((err) => err)) return null;
+    // if (!errors.some((err) => err)) return null;
+
     return (
       <>
         <h3>Error Found:</h3>
-        {errors[1] ? <li>{numErrMessage}</li> : <li>{strErrMessage}</li>}
+        {errors[1]  && <li>{numErrMessage}</li>}
+        {(errors[0] || errors[2]) &&<li>{strErrMessage}</li>}
+        {values.some((v) => v.trim() !== "") && customPlate.length > 0 && (
+          <li>{bothPlatePresentErrMessage}</li>
+        )}
       </>
     );
   };
@@ -35,29 +41,46 @@ const RegisterPlatePage = () => {
     setPrice(value); // Allow empty input or positive numbers
   };
 
+  const handleCustomPlate = (e) => {
+    const value = e.target.value.toUpperCase();
+
+    if (/^[A-Z0-9 ]+$/.test(value) || value == "") {
+      setCustomPlate(value);
+    }
+  };
+
   const handleRegisterStandardPlate = (e) => {
     e.preventDefault();
     const body = {
-      plateNumber: values.join('').trim(),
+      plateNumber: values.join("").trim(),
       personalised: false,
       available: available,
       price: Number(price),
-      customerId: null
-    }
+      customerId: null,
+    };
     createVehiclePlate(body)
-    .then(res => {
-      console.log("Vehicle plate created:", res);
-      toast.success("New vehicle plate registered!")
-      setValues(["","",""])
-      setPrice(0)
-      setAvailable(true)
-      setErrors([false, false, false])
+      .then((res) => {
+        console.log("Vehicle plate created:", res);
+        toast.success("New vehicle plate registered!");
+        setValues(["", "", ""]);
+        setPrice(0);
+        setAvailable(true);
+        setErrors([false, false, false]);
+      })
+      .catch((e) => {
+        console.log(e);
+        toast.error("Vehicle plate not registered");
+      });
+  };
 
-    })
-    .catch(e => {
-      console.log(e)
-      toast.error("Vehicle plate not registered")
-  })
+  const showButton = () => {
+    return !errors.some((err) => err) &&
+      values.every((v) => v.trim() !== "") ^ (customPlate.length > 0) &&
+      price > 0 ? (
+      <button>Register</button>
+    ) : (
+      <button disabled>Register</button>
+    );
   };
 
   return (
@@ -70,7 +93,19 @@ const RegisterPlatePage = () => {
         <div className="form-group">
           <label className="inline">Registration number:</label>
           <StandardRegPlateInput props={regplateProps} />
+          <ul>or</ul>
+          <div>
+            <input
+              type="text"
+              placeholder="CUSTOM"
+              minLength={1}
+              maxLength={7}
+              value={customPlate}
+              onChange={handleCustomPlate}
+            />
+          </div>
         </div>
+
         <div className="form-group">
           <label>Price:</label>
           <input
@@ -91,11 +126,8 @@ const RegisterPlatePage = () => {
             <span className="slider round"></span>
           </label>
         </div>
-        {!errors.some((err) => err) ? (
-          <button>Register</button>
-        ) : (
-          <button disabled>Register</button>
-        )}
+
+        {showButton()}
       </form>
     </>
   );
