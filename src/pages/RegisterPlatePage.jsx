@@ -5,6 +5,7 @@ import "../assets/button.css";
 import { createVehiclePlate } from "../api/vehiclePlateApi";
 // import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import bannedWordsData from '../data/banned_words.json'
 
 const RegisterPlatePage = () => {
   const [values, setValues] = useState(["", "", ""]);
@@ -12,22 +13,26 @@ const RegisterPlatePage = () => {
   const regplateProps = { values, setValues, errors, setErrors };
   const [price, setPrice] = useState('');
   const [available, setAvailable] = useState(true);
-  let strErrMessage = "Letters only accepted";
-  let numErrMessage = "Numbers only accepted";
-  let bothPlatePresentErrMessage =
-    "Registration plate cannot be both STANDARD and CUSTOM";
+  let strErrMessage = "Only letters are allowed.";
+  let numErrMessage = "Only numbers are allowed.";
+  let bothPlatePresentErrMessage = "A plate cannot be both STANDARD and CUSTOM.";
+  let bannedWordMessage = "This registration plate contains restricted or inappropriate content.";
+  const[bannedWordFound, setBannedWordFound] = useState(false)
+  
   const [customPlate, setCustomPlate] = useState("");
+  const bannedWords = bannedWordsData.banned_words;
 
   const renderErrors = () => {
 
     return (
       <>
-        <h3>Error Found:</h3>
+        {errors.some(err => err) || values.some((v)=> v.trim() !=="") && bannedWordFound && <h3>Error Found:</h3>}
         {errors[1] && <li>{numErrMessage}</li>}
         {(errors[0] || errors[2]) && <li>{strErrMessage}</li>}
         {values.some((v) => v.trim() !== "") && customPlate.length > 0 && (
           <li>{bothPlatePresentErrMessage}</li>
         )}
+        {bannedWordFound &&  <li>{bannedWordMessage}</li>}
       </>
     );
   };
@@ -42,6 +47,13 @@ const RegisterPlatePage = () => {
 
   const handleCustomPlate = (e) => {
     const value = e.target.value.toUpperCase();
+    if(bannedWords.includes(value)){
+      setBannedWordFound(true)
+      return
+    } else{
+      setBannedWordFound(false)
+    }
+    
 
     if (/^[A-Z0-9 ]{0,7}$/.test(value)) {
       setCustomPlate(value);
