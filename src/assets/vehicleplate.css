@@ -1,0 +1,32 @@
+.vehicle-plate{
+    border: 1px solid blue;
+    padding: 2em;
+}
+
+.reg-number{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    border: 1px solid red;
+    border-radius: 5px;
+    background-color: whitesmoke;
+}
+
+.form-group{
+    padding: 1em;
+    text-align: left;
+}
+
+.license-text {
+    font-family: 'OCR B Std', 'Roboto Mono', 'Courier New', monospace;
+    letter-spacing: 1px;
+    font-size: 20px;
+  }
+
+  .dropdown{
+    display: flex; 
+    gap: 10px;
+    
+
+  }
+  

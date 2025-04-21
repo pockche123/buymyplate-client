@@ -43,7 +43,7 @@ const RegionDropDown = ({props}) => {
     regionTags && regionTags.length > 0 && (
 
       <Dropdown>
-            <Dropdown.Toggle  id="dropdown-basic">
+            <Dropdown.Toggle  id="dropdown-basic" >
       {selectTag}
     </Dropdown.Toggle>
         <Dropdown.Menu>

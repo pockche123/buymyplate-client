@@ -65,7 +65,7 @@ const StandardRegPlateInput = ({props}) => {
              onKeyDown={(e) => handleKeyDown(idx, e)}  // Handle key down event
              style={{
                width: idx === 1 ? '5rem' : '4rem',  // Adjust width for the last box
-               height: '3rem',
+               height: '2.7rem',
                textAlign: 'center',
                fontSize: '1.5rem',
                textTransform: 'uppercase',

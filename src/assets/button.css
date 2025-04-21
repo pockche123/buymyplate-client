@@ -60,3 +60,10 @@
   .slider.round:before {
     border-radius: 50%;
   }
+
+
+  .dropdown-toggle{
+    height: 2.2em;
+  padding: 0.25em;
+  font-size: 20px;
+  }

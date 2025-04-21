@@ -2,6 +2,7 @@ import React from "react";
 import StandardRegPlateInput from "../components/StandardRegPlateInput";
 import { useRef, useState } from "react";
 import "../assets/button.css";
+import "../assets/vehicleplate.css"
 import { createVehiclePlate } from "../api/vehiclePlateApi";
 // import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -61,8 +62,6 @@ const RegisterPlatePage = () => {
     } else{
       setBannedWordFound(false)
     }
-    
-
     if (/^[A-Z0-9 ]{0,7}$/.test(value)) {
       setCustomPlate(value);
     }
@@ -104,18 +103,19 @@ const RegisterPlatePage = () => {
     let checkForErrors = !errors.some((err) => err)
     let checkForEmptyReg = (values[0].length == 2 && values[1].length == 3)^ (customPlate.length > 0)
     let checkForTagSelect = selectTag == ''  || selectTag != "Select Tag"
+    let checkForCustomPlate = !bannedWordFound && customPlate.length > 2
   
     return  checkForErrors &&
-       checkForEmptyReg &&  checkForTagSelect &&
+       checkForEmptyReg &&  checkForTagSelect && checkForCustomPlate &&
       price > 0 ? (
-      <button>Register</button>
+      <button type="button" class="btn btn-secondary">Register</button>
     ) : (
-      <button disabled>Register</button>
+      <button type="button" class="btn btn-light" disabled>Register</button>
     );
   };
 
   return (
-    <>
+    <div className="vehicle-plate">
       <h3>Register a new plate</h3>
 
       {renderErrors()}
@@ -123,10 +123,14 @@ const RegisterPlatePage = () => {
 
 
       <form onSubmit={handleRegisterStandardPlate}>
-      <div style={{ display: 'flex', gap: '1rem', border:'1px solid red' }}>
-          <label className="inline">Registration number:</label>
+      <div  className="form-group reg-number">
+          <label className="inline"><b>Registration number:</b></label>
+          <span>(STANDARD)</span>
+          <div className="dropdown license-text">
+   
           <RegionDropDown props={regionDropDownProps}/>
           <StandardRegPlateInput props={regplateProps} />
+          </div>
           <ul>or</ul>
           <div>
             <input
@@ -134,16 +138,18 @@ const RegisterPlatePage = () => {
               placeholder="CUSTOM"
               minLength={1}
               maxLength={7}
+              className="form-control license-text"
               value={customPlate}
               onChange={handleCustomPlate}
             />
           </div>
         </div>
        
-        <div className="form-group">
-          <label>Price:</label>
+        <div className="form-group ">
+          <label><b>Price:</b></label>
           <input
             name="plate-price"
+            className="form-control"
             type="text"
             value={price}
             maxLength={8}
@@ -151,7 +157,7 @@ const RegisterPlatePage = () => {
           />
         </div>
         <div className="form-group">
-          <label>Available: </label>
+          <label><b>Available: </b></label> &nbsp;
           <label className="switch">
             <input
               type="checkbox"
@@ -164,7 +170,7 @@ const RegisterPlatePage = () => {
 
         {showButton()}
       </form>
-    </>
+    </div>
   );
 };
 
