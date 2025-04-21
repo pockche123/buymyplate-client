@@ -14,6 +14,10 @@ const RegionDropDown = ({props}) => {
     const handleSelectRegion = (region) => {
         setRegionTags(memorytags[region])
         setSelectedRegion(region)
+        if(region == "Select Region"){
+          setSelectTag('Select Tag')
+        }
+
         console.log('Tags:', memorytags[region]);
 
         

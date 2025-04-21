@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import StandardRegPlateInput from "../components/StandardRegPlateInput";
 import { useRef, useState } from "react";
 import "../assets/button.css";
@@ -28,21 +28,31 @@ const RegisterPlatePage = () => {
   const [regionTags, setRegionTags] = useState([])
   const regionDropDownProps = {selectTag, setSelectTag, selectedRegion, setSelectedRegion, regionTags, setRegionTags}
 
+  const [bothPresentError, setBothPresentError] = useState(false)
 
+
+  useEffect(() => {
+    const hasStandard = (selectTag.length > 0 && selectTag !== "Select Tag") || 
+                        (selectedRegion.length > 0 && selectedRegion !== "Select Region") || 
+                        values.some((v) => v.trim() !== "");
+    const hasCustom = customPlate.length > 0;
+  
+    setBothPresentError(hasStandard && hasCustom);
+  }, [selectTag, selectedRegion, values, customPlate]);
+  
 
 
   const renderErrors = () => {
 
     return (
-      <>
-        {(errors[0] || errors[1] || bannedWordFound || selectTag.length == 0) &&  <h3>Error Found:</h3>}
+      <div className="error-block">
+        {(errors[0] || errors[1] || bannedWordFound || selectTag.length == 0) &&  <h5>Error Found!</h5>}
         {errors[0] && <li>{numErrMessage}</li>}
         {(errors[1]) && <li>{strErrMessage}</li>}
-        {values.some((v) => v.trim() !== "") && customPlate.length > 0 && (
-          <li>{bothPlatePresentErrMessage}</li>
-        )}
+        {bothPresentError && <li>{bothPlatePresentErrMessage}</li>}
+
         {bannedWordFound &&  <li>{bannedWordMessage}</li>}
-      </>
+      </div>
     );
   };
 
@@ -69,7 +79,7 @@ const RegisterPlatePage = () => {
 
   const handleRegisterStandardPlate = (e) => {
     e.preventDefault();
-      
+      console.log("register button hit")
 
 
     const body = {
@@ -101,24 +111,25 @@ const RegisterPlatePage = () => {
 
 
     let checkForErrors = !errors.some((err) => err)
-    let checkForEmptyReg = (values[0].length == 2 && values[1].length == 3)^ (customPlate.length > 0)
-    let checkForTagSelect = selectTag == ''  || selectTag != "Select Tag"
-    let checkForCustomPlate = !bannedWordFound && customPlate.length > 2
+    let checkForEmptyReg = (values[0].length == 2 && values[1].length == 3)^ (customPlate.length > 2 && !bannedWordFound)
+
   
     return  checkForErrors &&
-       checkForEmptyReg &&  checkForTagSelect && checkForCustomPlate &&
+       checkForEmptyReg && !bothPresentError &&
       price > 0 ? (
-      <button type="button" class="btn btn-secondary">Register</button>
+
+      <button type="submit" className="btn btn-secondary" >Register</button>
     ) : (
-      <button type="button" class="btn btn-light" disabled>Register</button>
+      <button type="button" className="btn btn-light" disabled>Register</button>
     );
   };
 
   return (
     <div className="vehicle-plate">
       <h3>Register a new plate</h3>
-
+      <div className="reg-errors">
       {renderErrors()}
+      </div>
 
 
 
