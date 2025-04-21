@@ -10,21 +10,21 @@ const RegisterPlatePage = () => {
   const [values, setValues] = useState(["", "", ""]);
   const [errors, setErrors] = useState([false, false, false]);
   const regplateProps = { values, setValues, errors, setErrors };
-  const [price, setPrice] = useState(0);
+  const [price, setPrice] = useState('');
   const [available, setAvailable] = useState(true);
   let strErrMessage = "Letters only accepted";
   let numErrMessage = "Numbers only accepted";
-  let bothPlatePresentErrMessage ="Registration plate cannot be both STANDARD and CUSTOM";
+  let bothPlatePresentErrMessage =
+    "Registration plate cannot be both STANDARD and CUSTOM";
   const [customPlate, setCustomPlate] = useState("");
 
   const renderErrors = () => {
-    // if (!errors.some((err) => err)) return null;
 
     return (
       <>
         <h3>Error Found:</h3>
-        {errors[1]  && <li>{numErrMessage}</li>}
-        {(errors[0] || errors[2]) &&<li>{strErrMessage}</li>}
+        {errors[1] && <li>{numErrMessage}</li>}
+        {(errors[0] || errors[2]) && <li>{strErrMessage}</li>}
         {values.some((v) => v.trim() !== "") && customPlate.length > 0 && (
           <li>{bothPlatePresentErrMessage}</li>
         )}
@@ -35,24 +35,26 @@ const RegisterPlatePage = () => {
   const handlePriceInput = (e) => {
     const value = e.target.value;
 
-    if (isNaN(value) || !value) {
-      return;
+    if (!isNaN(value) || value == "") {
+      setPrice(value)
     }
-    setPrice(value); // Allow empty input or positive numbers
   };
 
   const handleCustomPlate = (e) => {
     const value = e.target.value.toUpperCase();
 
-    if (/^[A-Z0-9 ]+$/.test(value) || value == "") {
+    if (/^[A-Z0-9 ]{0,7}$/.test(value)) {
       setCustomPlate(value);
     }
   };
 
   const handleRegisterStandardPlate = (e) => {
     e.preventDefault();
+      
+
+
     const body = {
-      plateNumber: values.join("").trim(),
+      plateNumber: customPlate.length > 0 ? customPlate: values[0] + values[1] + ' ' + values[2],
       personalised: false,
       available: available,
       price: Number(price),
@@ -112,6 +114,7 @@ const RegisterPlatePage = () => {
             name="plate-price"
             type="text"
             value={price}
+            maxLength={8}
             onChange={handlePriceInput}
           />
         </div>

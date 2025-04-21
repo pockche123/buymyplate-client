@@ -13,11 +13,11 @@ const StandardRegPlateInput = ({props}) => {
       val = index === 2 ? val.slice(0, 3) : val.slice(0, 2); // Limit input length for each box
   
       let isValid = true;
-  
+      console.log("VAL: " , val)
       // Validation logic based on the input box index
       if (index === 1) {
         // Second box should only have numbers
-        isValid = /^[0-9]{0,2}$/.test(val);  // Allow up to 2 digits for the second box
+        isValid = /^[0-9]{0,2}$/.test(val) ;  // Allow up to 2 digits for the second box
       } else {
         // First and third boxes should only have letters
         isValid = /^[A-Z]{0,3}$/.test(val);  // Allow up to 2 letters for first/third box
@@ -45,7 +45,8 @@ const StandardRegPlateInput = ({props}) => {
      const handleKeyDown = (index, e) => {
        if (e.key === 'Backspace' && values[index] === '' && index > 0) {
          const updated = [...values];
-         updated[index - 1] = '';  // Clear the previous box
+         updated[index - 1].slice(0, updated[index - 1].length - 1);
+
          setValues(updated);
          refs[index - 1].current?.focus();  // Focus the previous box
        }
