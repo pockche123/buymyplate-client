@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { getVehiclePlatesByInput } from '../api/vehiclePlateApi'
+import { useNavigate } from 'react-router-dom'
 
 const Home = () => {
 
   const [regInput, setRegInput] = useState('')
   const [regArr, setRegArr]  = useState([])
+  const navigate = useNavigate();
 
 
  
@@ -21,6 +23,22 @@ const Home = () => {
           .catch(e => console.log(e))
   }
 
+  
+
+  const handleViewButton = () => {
+    console.log("view button clicked")
+  }
+
+  const handleUpdateButton = (regId) => {
+    console.log("update button clicked")
+    navigate('/plate/edit/' + regId)
+  }
+
+
+
+
+
+
 
 
   return (
@@ -34,11 +52,14 @@ const Home = () => {
     </form>
     {regArr && regArr.length > 0 && (
   <ul>
-    {regArr.map((reg, index) => (
-      <ul>
-      <li key={index}>{reg?.plateNumber}, {'£'+reg?.price}, {reg?.available ? "available": "unavailable"}  </li>
+    {regArr.map((reg) => (
+    
+      <li key={reg.vehicleId} >{reg?.plateNumber}, {'£'+reg?.price}, {reg?.available ? "available": "unavailable"}  
+        <button onClick={handleViewButton}>View</button>
+        <button onClick={() => handleUpdateButton(reg.vehicleId)}>Update</button>
+      </li>
 
-      </ul>
+
       
     ))}
   </ul>
