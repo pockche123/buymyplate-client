@@ -1,7 +1,7 @@
 import React from 'react'
 import bannedWordsData from '../data/banned_words.json'
 
-const CustomPlateInput = ({setBannedWordFound, customPlate, setCustomPlate}) => {
+const CustomPlateInput = ({setBannedWordFound, customPlate, setCustomPlate, mode}) => {
     const bannedWords = bannedWordsData.banned_words;
     const handleCustomPlate = (e) => {
         const value = e.target.value.toUpperCase();
@@ -25,6 +25,7 @@ const CustomPlateInput = ({setBannedWordFound, customPlate, setCustomPlate}) => 
             className="form-control license-text"
             value={customPlate}
             onChange={handleCustomPlate}
+            disabled={mode !=='create'}
           />
         </div>
   )

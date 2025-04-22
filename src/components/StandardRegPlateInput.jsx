@@ -3,7 +3,7 @@ import { useRef, useState } from 'react';
 
 
 const StandardRegPlateInput = ({props}) => {
-    const {values, setValues, errors, setErrors} = props
+    const {values, setValues, errors, setErrors,mode} = props
 
     const refs = [useRef(), useRef(), useRef()];  // Refs for each input box
   
@@ -75,6 +75,7 @@ const StandardRegPlateInput = ({props}) => {
   
              }}
              placeholder={placeholders[idx]} 
+             disabled={mode !== 'create'}
            />
          ))}
   </>
