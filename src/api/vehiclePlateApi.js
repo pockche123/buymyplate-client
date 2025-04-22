@@ -1,6 +1,12 @@
 import axiosInstance from './axiosInstance';
 
-export const getVehiclePlatesByInput = (input) => axiosInstance.get(`/vehiclePlates/reg/${input}`)
+export const getVehiclePlatesByInput = (input, page = 0, size = 10) => 
+   axiosInstance.get(`/vehiclePlates/reg/${input}`, {
+     params: {
+       page,
+       size
+     }
+   });
 
 export const getVehiclePlatesById = (id) => axiosInstance.get(`/vehiclePlates/${id}`)
 
