@@ -10,12 +10,12 @@ const StandardRegPlateInput = ({props}) => {
     // Handle the change for each box
     const handleChange = (index, e) => {
       let val = e.target.value.toUpperCase();  // Convert to uppercase
-      val = index === 2 ? val.slice(0, 3) : val.slice(0, 2); // Limit input length for each box
+      val = index === 1 ? val.slice(0, 3) : val.slice(0, 2); // Limit input length for each box
   
       let isValid = true;
       console.log("VAL: " , val)
       // Validation logic based on the input box index
-      if (index === 1) {
+      if (index === 0) {
         // Second box should only have numbers
         isValid = /^[0-9]{0,2}$/.test(val) ;  // Allow up to 2 digits for the second box
       } else {
@@ -36,7 +36,7 @@ const StandardRegPlateInput = ({props}) => {
       setErrors(updatedErrors);
   
       // If the value is filled and it's not the last box, focus the next box
-      if (val.length === (index === 2 ? 3 : 2) && index < refs.length - 1) {
+      if (val.length === (index === 1 ? 3 : 2) && index < refs.length - 1) {
         refs[index + 1].current?.focus();
       }
     };
@@ -52,10 +52,10 @@ const StandardRegPlateInput = ({props}) => {
        }
      };
   
-     const placeholders = ['LL', 'NN', 'LLL'];
+     const placeholders = ['NN', 'LLL'];
    
      return (
-       <div style={{ display: 'flex', gap: '1rem' }}>
+      <>
          {values?.map((val, idx) => (
            <input
              key={idx}
@@ -64,8 +64,8 @@ const StandardRegPlateInput = ({props}) => {
              onChange={(e) => handleChange(idx, e)}  // Handle input change
              onKeyDown={(e) => handleKeyDown(idx, e)}  // Handle key down event
              style={{
-               width: idx === 2 ? '5rem' : '4rem',  // Adjust width for the last box
-               height: '3rem',
+               width: idx === 1 ? '5rem' : '4rem',  // Adjust width for the last box
+               height: '2.7rem',
                textAlign: 'center',
                fontSize: '1.5rem',
                textTransform: 'uppercase',
@@ -77,7 +77,7 @@ const StandardRegPlateInput = ({props}) => {
              placeholder={placeholders[idx]} 
            />
          ))}
-       </div>
+  </>
      );
 }
 
