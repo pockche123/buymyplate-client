@@ -72,7 +72,7 @@ const usePlateform = ({mode, initialData, onSubmit}) => {
         personalised: customPlate.length > 0,
         available: available,
         price: Number(price),
-        customerId: customerId,
+        customerId: available ? null: customerId,
       };
       console.log("Body: " , body, ", vehicleId: ", initialData.vehicleId)
 
