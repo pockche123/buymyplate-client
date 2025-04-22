@@ -8,6 +8,8 @@ import memorytags from '../data/dvla_memory_tags.json'
 const usePlateform = ({mode, initialData, onSubmit}) => {
      // Initialize state from props
 
+     console.log(initialData)
+
   const [customPlate, setCustomPlate] = useState(initialData?.personalised ? initialData?.plateNumber: '');
   const [price, setPrice] = useState(initialData?.price || '');
   const [available, setAvailable] = useState(initialData?.available ?? true);
@@ -79,7 +81,8 @@ const usePlateform = ({mode, initialData, onSubmit}) => {
             toast.success("New vehicle plate registered!")
             resetForm();
         } else if (mode === 'edit'){
-            await updateVehiclePlate(initialData.id, body); 
+
+            await updateVehiclePlate(initialData.vehicleId, body); 
             toast.success("Plate updated successfully!")
     
         }
