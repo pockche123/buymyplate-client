@@ -30,6 +30,7 @@ const PlateFormCard = ({
 
 
   return (
+    <>
     <form onSubmit={handleSubmit}>
         <div className="form-group reg-number">
         <label className="inline"><b>Registration number:</b></label>
@@ -53,12 +54,15 @@ const PlateFormCard = ({
         {mode === 'create' ? 'Register' :  mode === 'view'? 'View':'Update'}
         </button>
         &nbsp;
-        <button className="btn btn-warning" onClick={handleGoBack}>
-          Go back
-        </button>
-
+        
 
     </form>
+    &nbsp;
+    <button className="btn btn-warning" onClick={handleGoBack} style={{margin: '1em'}}>
+    Go back
+  </button>
+  </>
+
   )
 }
 
