@@ -1,6 +1,6 @@
 import React from 'react'
 
-const PriceInput = ({price, setPrice}) => {
+const PriceInput = ({price, setPrice, mode}) => {
 
     const handlePriceInput = (e) => {
         const value = e.target.value;
@@ -21,6 +21,7 @@ const PriceInput = ({price, setPrice}) => {
       value={price}
       maxLength={8}
       onChange={handlePriceInput}
+      disabled={mode==='view'}
     />
   </div>
   )

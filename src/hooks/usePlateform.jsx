@@ -3,12 +3,11 @@ import { createVehiclePlate, updateVehiclePlate } from '../api/vehiclePlateApi';
 import { toast } from "react-toastify";
 import { ERROR_MESSAGES } from '../constants';
 import memorytags from '../data/dvla_memory_tags.json'
+import { useNavigate } from 'react-router-dom';
 
 
 const usePlateform = ({mode, initialData, onSubmit}) => {
      // Initialize state from props
-
-     console.log(initialData)
 
   const [customPlate, setCustomPlate] = useState(initialData?.personalised ? initialData?.plateNumber: '');
   const [price, setPrice] = useState(initialData?.price || '');
@@ -51,42 +50,45 @@ const usePlateform = ({mode, initialData, onSubmit}) => {
     edit: 'Edit Plate Details'
   }[mode];
 
+  const navigate = useNavigate();
+
 
 
 //   checking to see both plates present
   useEffect(() => {
-    console.log("select tag false", selectTag !== "Select Tag")
-    console.log("select region falsy", selectedRegion !== "Select Region")
-    console.log("values are not empty" ,values?.some((v) => v !== undefined ))
-    console.log("values" , values)
+    // console.log("select tag false", selectTag !== "Select Tag")
+    // console.log("select region falsy", selectedRegion !== "Select Region")
+    // console.log("values are not empty" ,values?.some((v) => v !== undefined ))
+    // console.log("values" , values)
     const hasStandard = (  selectTag !== "Select Tag") ||( selectedRegion !== "Select Region") || values?.some((v) =>  v);
     const hasCustom = customPlate && customPlate.length > 0;
-    console.log("both presnet yeah")
     setBothPresentError(hasStandard && hasCustom);
   }, [customPlate, values, selectTag, selectedRegion ]);
 
   const handleSubmit = async(e) => {
     e.preventDefault();
     const body = {
-        plateNumber: customPlate.length > 0 ? customPlate : selectTag + values[0] + ' ' + values[1],
+        plateNumber: customPlate.length > 0 ? customPlate : selectTag + values[0].trim() + ' ' + values[1].trim(),
         personalised: customPlate.length > 0,
         available: available,
         price: Number(price),
         customerId: customerId,
       };
+      console.log("Body: " , body, ", vehicleId: ", initialData.vehicleId)
 
       try{
         if(mode === 'create'){
-            await createVehiclePlate(body); 
+            const response = await createVehiclePlate(body); 
             toast.success("New vehicle plate registered!")
-            resetForm();
+            navigate('/plate/view/' + response.vehicleId)
         } else if (mode === 'edit'){
 
             await updateVehiclePlate(initialData.vehicleId, body); 
             toast.success("Plate updated successfully!")
+            onSubmit?.();
     
         }
-        onSubmit?.();
+      
     
       } catch(error){
         console.log(error)
@@ -94,17 +96,6 @@ const usePlateform = ({mode, initialData, onSubmit}) => {
 
       }
 
-  }
-
-  const resetForm = () => {
-    if (mode === 'create') {
-        setValues(["", ""]);
-        setPrice('');
-        setAvailable(true);
-        setCustomPlate("");
-        setSelectedRegion('Select Region');
-        setSelectTag('Select Tag');
-      }
   }
 
   const renderErrors = () => (

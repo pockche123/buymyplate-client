@@ -9,7 +9,7 @@ const RegionDropDown = ({props}) => {
     const tags = Object.keys(memorytags);
     const[regionTags, setRegionTags] = useState([])
   
-    const {selectTag, setSelectTag, selectedRegion, setSelectedRegion} = props
+    const {selectTag, setSelectTag, selectedRegion, setSelectedRegion, mode} = props
 
 
 
@@ -33,7 +33,7 @@ const RegionDropDown = ({props}) => {
   return (
     <>
     <Dropdown>
-    <Dropdown.Toggle variant="success" id="dropdown-basic">
+    <Dropdown.Toggle variant="success" id="dropdown-basic"   disabled={mode !== "create"} >
       {selectedRegion}
     </Dropdown.Toggle>
 
@@ -50,7 +50,7 @@ const RegionDropDown = ({props}) => {
     (regionTags && regionTags.length > 0 || selectTag !== "Select Tag") && (
 
       <Dropdown>
-            <Dropdown.Toggle  id="dropdown-basic" >
+            <Dropdown.Toggle  id="dropdown-basic"   disabled={mode !== "create"}  >
       {selectTag}
     </Dropdown.Toggle>
         <Dropdown.Menu>

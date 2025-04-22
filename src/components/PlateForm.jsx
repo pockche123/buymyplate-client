@@ -2,8 +2,7 @@ import React from 'react'
 import usePlateform from '../hooks/usePlateform'
 import "../assets/button.css";
 import "../assets/vehicleplate.css";
-import PlateFormEdit from './PlateFormEdit';
-import PlateFormView from './PlateFormView';
+import PlateFormCard from './PlateFormCard';
 
 const PlateForm = ({
     mode ="create",
@@ -23,11 +22,9 @@ const PlateForm = ({
             {form.renderErrors()}
         </div>
         {
-            mode === 'view' ? (
-                <PlateFormView {...form}/>
-            ): (
-                <PlateFormEdit {...form}/>
-            )
+
+            <PlateFormCard {...form}/>
+           
         }
         </div>
   )
