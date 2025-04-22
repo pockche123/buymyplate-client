@@ -12,7 +12,6 @@ const EditPlatePage = () => {
   useEffect(() => {
     getVehiclePlatesById(id).then(res => {
         setPlateData(res?.data)
-        console.log("res: " , res)
         setLoading(false); 
     
   }).catch(e =>{console.log("error fetching vehicle plate by ID: ", e) ;      setLoading(false); })

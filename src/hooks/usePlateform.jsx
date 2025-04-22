@@ -28,14 +28,11 @@ const usePlateform = ({mode, initialData, onSubmit}) => {
   };
   
   const [selectedRegion, setSelectedRegion] = useState(() => {
-    const tag = initialData?.plateNumber?.slice(0, 2) || '';
+    const tag = !initialData?.personalised && initialData?.plateNumber?.slice(0, 2) || '';
     return getRegionFromTag(tag);
   });
 
-  console.log('selected tag: ', selectTag)
-  console.log("selected region: ", selectedRegion)
  
-  const [regionTags, setRegionTags] = useState(initialData?.regionTags || []);
   const [personalised, setPersonalised] = useState(initialData?.personalised ||null);
   const [customerId, setCustomerId] = useState(initialData?.customerId || null)
   
@@ -56,14 +53,15 @@ const usePlateform = ({mode, initialData, onSubmit}) => {
 
 //   checking to see both plates present
   useEffect(() => {
-    const hasStandard = (  selectTag !== "Select Tag") || 
-      ( selectedRegion !== "Select Region") || 
-      values?.some((v) => v?.trim() !== "");
-    const hasCustom = customPlate.length > 0;
+    console.log("select tag false", selectTag !== "Select Tag")
+    console.log("select region falsy", selectedRegion !== "Select Region")
+    console.log("values are not empty" ,values?.some((v) => v !== undefined ))
+    console.log("values" , values)
+    const hasStandard = (  selectTag !== "Select Tag") ||( selectedRegion !== "Select Region") || values?.some((v) =>  v);
+    const hasCustom = customPlate && customPlate.length > 0;
+    console.log("both presnet yeah")
     setBothPresentError(hasStandard && hasCustom);
-    const region = getRegionFromTag(selectTag, memorytags);
-    setSelectedRegion(region);
-  }, [selectTag, selectedRegion, values, customPlate, initialData]);
+  }, [customPlate, values, selectTag, selectedRegion ]);
 
   const handleSubmit = async(e) => {
     e.preventDefault();
@@ -107,6 +105,7 @@ const usePlateform = ({mode, initialData, onSubmit}) => {
   }
 
   const renderErrors = () => (
+
     <div className="error-block">
       {(errors[0] || errors[1] || bannedWordFound || selectTag?.length === 0) && <h5>Error Found!</h5>}
       {errors[0] && <li>{ERROR_MESSAGES.number}</li>}
@@ -133,8 +132,6 @@ const usePlateform = ({mode, initialData, onSubmit}) => {
     setSelectedRegion,
     selectTag,
     setSelectTag,
-    regionTags,
-    setRegionTags,
     errors,
     setErrors,
     bannedWordFound,

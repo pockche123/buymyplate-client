@@ -13,15 +13,15 @@ const PlateFormEdit = ({
   available, setAvailable,
   selectedRegion, setSelectedRegion,
   selectTag, setSelectTag,
-  regionTags, setRegionTags,
   handleSubmit,
   errors, setErrors, setBannedWordFound,
   bannedWordFound,
   bothPresentErr
 
 }) => {
-    const regionDropDownProps = { selectTag, setSelectTag, selectedRegion, setSelectedRegion, regionTags, setRegionTags };
+    const regionDropDownProps = { selectTag, setSelectTag, selectedRegion, setSelectedRegion };
     const regplateProps = { values, setValues, errors, setErrors };
+
 
 
   return (
@@ -43,7 +43,7 @@ const PlateFormEdit = ({
       <button 
         type="submit" 
         className={`btn ${price > 0 ? 'btn-secondary' : 'btn-light'}`}
-        disabled={!price || errors.some(e => e) || bothPresentErr}
+        disabled={!price || errors.some(e => e) || bothPresentErr || ( (selectTag == "Select Tag" || selectedRegion == "SelectRegion") && !customPlate) }
       >
         {mode === 'create' ? 'Register' : 'Update'}
         </button>

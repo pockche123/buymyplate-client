@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {Dropdown} from 'react-bootstrap';
 import memorytags from '../../data/dvla_memory_tags.json'
 import '../RegionDropDown/RegionDropDown.css'
@@ -7,18 +7,21 @@ import '../RegionDropDown/RegionDropDown.css'
 
 const RegionDropDown = ({props}) => {
     const tags = Object.keys(memorytags);
+    const[regionTags, setRegionTags] = useState([])
   
-    const {selectTag, setSelectTag, selectedRegion, setSelectedRegion, regionTags, setRegionTags} = props
- 
+    const {selectTag, setSelectTag, selectedRegion, setSelectedRegion} = props
+
+
 
     const handleSelectRegion = (region) => {
         setRegionTags(memorytags[region])
+        console.log("regionTags: ", regionTags)
         setSelectedRegion(region)
         if(region == "Select Region"){
           setSelectTag('Select Tag')
         }
 
-        console.log('Tags:', memorytags[region]);
+        console.log('Region selected:', region);
 
         
     }
@@ -44,7 +47,7 @@ const RegionDropDown = ({props}) => {
   </Dropdown>
   {
 
-    regionTags && regionTags.length > 0 && (
+    (regionTags && regionTags.length > 0 || selectTag !== "Select Tag") && (
 
       <Dropdown>
             <Dropdown.Toggle  id="dropdown-basic" >

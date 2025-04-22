@@ -10,7 +10,6 @@ const PlateForm = ({
     initialData = null, 
     onSubmit
 }) => {
-    console.log("initialData: ", initialData )
     const form = usePlateform({
         mode,
         initialData,
