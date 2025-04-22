@@ -25,9 +25,9 @@ const SearchInputResults = ({regArr}) => {
       <li key={reg.vehicleId} >
         <div>
         <b>{reg?.plateNumber}, {'£'+reg?.price} </b>,
-        <span className={`availability ${reg?.available ? 'available' : 'unavailable'}`}>
+          <span className={`availability ${reg?.available ? 'available' : 'unavailable'}`}>
           {reg?.available ? "available" : "unavailable"}
-        </span> 
+        </span> {reg?.available ? "available": "unavailable"}  
         </div>
         <div>
         <button className="btn btn-info"onClick={() => handleViewButton(reg.vehicleId)}>View</button> &nbsp; &nbsp;

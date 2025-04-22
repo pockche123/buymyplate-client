@@ -19,6 +19,10 @@ const Home = () => {
     fetchResults(0)
 
   }
+
+      useEffect(() => {
+          fetchResults(currentPage)
+      }, [itemsPerPage])
   const fetchResults = async (page = 0) => {
     setIsLoading(true);
     try {
@@ -49,7 +53,9 @@ const Home = () => {
     {regArr && regArr.length > 0 && (
       <>
         <SearchInputResults regArr={regArr}/>
-        <PaginationCard fetchResults={fetchResults} currentPage={currentPage} itemsPerPage={itemsPerPage} setItemsPerPage={setItemsPerPage} totalPages={totalPages}/>
+        {/* <PaginationCard fetchResults={fetchResults} currentPage={currentPage} itemsPerPage={itemsPerPage} setItemsPerPage={setItemsPerPage} totalPages={totalPages}/> */}
+        <PaginationCard fetchResults={fetchResults} currentPage={currentPage} itemsPerPage={itemsPerPage} setItemsPerPage={setItemsPerPage} totalPages={totalPages} setCurrentPage = {setCurrentPage}/>
+
      
       </>
     )}
