@@ -23,7 +23,6 @@ const PlateFormEdit = ({
     const regionDropDownProps = { selectTag, setSelectTag, selectedRegion, setSelectedRegion, regionTags, setRegionTags };
     const regplateProps = { values, setValues, errors, setErrors };
 
-    console.log("this is mode: ", mode)
 
   return (
     <form onSubmit={handleSubmit}>

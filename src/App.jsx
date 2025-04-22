@@ -5,6 +5,7 @@ import Navbar from './components/Navbar/Navbar'
 import RegisterPlatePage from './pages/RegisterPlatePage'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; 
+import EditPlatePage from './pages/EditPlatePage'
 
 function App() {
 
@@ -14,6 +15,7 @@ function App() {
     <Routes>
       <Route path="/" element={<Home/>}/>
       <Route path="/register-plate" element={<RegisterPlatePage/>}/>
+      <Route path="/plate/edit/:id" element = {<EditPlatePage/>}/>
     </Routes>
     <ToastContainer />
     </>

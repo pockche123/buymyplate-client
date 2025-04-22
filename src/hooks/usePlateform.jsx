@@ -2,17 +2,41 @@ import React, {useState, useEffect} from 'react'
 import { createVehiclePlate, updateVehiclePlate } from '../api/vehiclePlateApi';
 import { toast } from "react-toastify";
 import { ERROR_MESSAGES } from '../constants';
+import memorytags from '../data/dvla_memory_tags.json'
 
 
 const usePlateform = ({mode, initialData, onSubmit}) => {
      // Initialize state from props
-  const [values, setValues] = useState(initialData?.values || ["", ""]);
-  const [customPlate, setCustomPlate] = useState(initialData?.customPlate || "");
-  const [price, setPrice] = useState(initialData?.pßßice || '');
+
+  const [customPlate, setCustomPlate] = useState(initialData?.personalised ? initialData?.plateNumber: '');
+  const [price, setPrice] = useState(initialData?.price || '');
   const [available, setAvailable] = useState(initialData?.available ?? true);
-  const [selectedRegion, setSelectedRegion] = useState(initialData?.selectedRegion || 'Select Region');
-  const [selectTag, setSelectTag] = useState(initialData?.selectTag || 'Select Tag');
+  const [values, setValues] = useState(!initialData?.personalised ? [initialData?.plateNumber.slice(2,4), initialData?.plateNumber.slice(4)]: ["", ""]);
+
+
+  const [selectTag, setSelectTag] = useState(
+    initialData?.plateNumber && !initialData?.personalised? initialData.plateNumber.slice(0, 2) : "Select Tag"
+  );
+  
+  const getRegionFromTag = (tag) => {
+    for (const [region, tags] of Object.entries(memorytags)) {
+      if (tags.includes(tag)) {
+        return region;
+      }
+    }
+    return 'Select Region'; // Default if tag not found
+  };
+  
+  const [selectedRegion, setSelectedRegion] = useState(() => {
+    const tag = initialData?.plateNumber?.slice(0, 2) || '';
+    return getRegionFromTag(tag);
+  });
+
+  console.log('selected tag: ', selectTag)
+  console.log("selected region: ", selectedRegion)
+ 
   const [regionTags, setRegionTags] = useState(initialData?.regionTags || []);
+  const [personalised, setPersonalised] = useState(initialData?.personalised ||null);
   const [customerId, setCustomerId] = useState(initialData?.customerId || null)
   
   // Error states
@@ -28,14 +52,18 @@ const usePlateform = ({mode, initialData, onSubmit}) => {
     edit: 'Edit Plate Details'
   }[mode];
 
+
+
 //   checking to see both plates present
   useEffect(() => {
-    const hasStandard = (selectTag.length > 0 && selectTag !== "Select Tag") || 
-      (selectedRegion.length > 0 && selectedRegion !== "Select Region") || 
-      values.some((v) => v.trim() !== "");
+    const hasStandard = (  selectTag !== "Select Tag") || 
+      ( selectedRegion !== "Select Region") || 
+      values?.some((v) => v?.trim() !== "");
     const hasCustom = customPlate.length > 0;
     setBothPresentError(hasStandard && hasCustom);
-  }, [selectTag, selectedRegion, values, customPlate]);
+    const region = getRegionFromTag(selectTag, memorytags);
+    setSelectedRegion(region);
+  }, [selectTag, selectedRegion, values, customPlate, initialData]);
 
   const handleSubmit = async(e) => {
     e.preventDefault();
@@ -80,7 +108,7 @@ const usePlateform = ({mode, initialData, onSubmit}) => {
 
   const renderErrors = () => (
     <div className="error-block">
-      {(errors[0] || errors[1] || bannedWordFound || selectTag.length === 0) && <h5>Error Found!</h5>}
+      {(errors[0] || errors[1] || bannedWordFound || selectTag?.length === 0) && <h5>Error Found!</h5>}
       {errors[0] && <li>{ERROR_MESSAGES.number}</li>}
       {errors[1] && <li>{ERROR_MESSAGES.string}</li>}
       {bothPresentError && <li>{ERROR_MESSAGES.bothPresent}</li>}
@@ -117,7 +145,9 @@ const usePlateform = ({mode, initialData, onSubmit}) => {
     customerId,
     setCustomerId,
     renderErrors,
-    handleSubmit
+    handleSubmit, 
+    personalised,
+    setPersonalised
   }
 }
 

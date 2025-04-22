@@ -29,8 +29,9 @@ const Home = () => {
     console.log("view button clicked")
   }
 
-  const handleUpdateButton = () => {
+  const handleUpdateButton = (regId) => {
     console.log("update button clicked")
+    navigate('/plate/edit/' + regId)
   }
 
 
@@ -55,7 +56,7 @@ const Home = () => {
     
       <li key={reg.vehicleId} >{reg?.plateNumber}, {'£'+reg?.price}, {reg?.available ? "available": "unavailable"}  
         <button onClick={handleViewButton}>View</button>
-        <button onClick={handleUpdateButton}>Update</button>
+        <button onClick={() => handleUpdateButton(reg.vehicleId)}>Update</button>
       </li>
 
 
