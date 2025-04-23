@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { getVehiclePlatesByInput } from '../api/vehiclePlateApi'
 import SearchPlateForm from '../components/SearchPlateForm'
 import SearchInputResults from '../components/SearchInputResults'
-import { FormSelect } from 'react-bootstrap'
+import PaginationCard from '../components/PaginationCard'
 
 const Home = () => {
 
@@ -19,6 +19,10 @@ const Home = () => {
     fetchResults(0)
 
   }
+
+      useEffect(() => {
+          fetchResults(currentPage)
+      }, [itemsPerPage])
   const fetchResults = async (page = 0) => {
     setIsLoading(true);
     try {
@@ -35,11 +39,7 @@ const Home = () => {
     }
   };
 
-  const handlePageChange = (newPage) => {
-    if (newPage >= 0 && newPage < totalPages) {
-      fetchResults(newPage);
-    }
-  };
+ 
 
 
 
@@ -53,41 +53,10 @@ const Home = () => {
     {regArr && regArr.length > 0 && (
       <>
         <SearchInputResults regArr={regArr}/>
-        <div className="pagination-controls">
-          <button 
-            className="btn btn-primary"
-            onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage === 0 || isLoading}
-          >
-            Previous
-          </button>
+        {/* <PaginationCard fetchResults={fetchResults} currentPage={currentPage} itemsPerPage={itemsPerPage} setItemsPerPage={setItemsPerPage} totalPages={totalPages}/> */}
+        <PaginationCard fetchResults={fetchResults} currentPage={currentPage} itemsPerPage={itemsPerPage} setItemsPerPage={setItemsPerPage} totalPages={totalPages} setCurrentPage = {setCurrentPage}/>
 
-          <span>
-            Page {currentPage + 1} of {totalPages}
-          </span>
-
-        &nbsp; &nbsp;
-
-          <button 
-            className="btn btn-primary"
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage === totalPages - 1 || isLoading}
-          >
-            Next
-          </button>
-
-          <FormSelect style={{width: '200px'}}
-            value={itemsPerPage}
-            onChange={(e) => {
-              setItemsPerPage(Number(e.target.value));
-              fetchResults(0);
-            }}
-          >
-            <option value={10}>10 per page</option>
-            <option value={25}>25 per page</option>
-            <option value={50}>50 per page</option>
-          </FormSelect>
-        </div>
+     
       </>
     )}
   </>

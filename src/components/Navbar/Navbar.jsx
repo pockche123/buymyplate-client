@@ -34,11 +34,12 @@ const Navbar = () => {
           <Link className="nav-link" to="/register-plate">Register Plate </Link>
           </li>
           <li className="nav-item">
+            <Link className="nav-link" to="/transactions">Transactions</Link>
           </li>
         </ul>
-        <span className="navbar-text">
+        {/* <span className="navbar-text">
           Navbar text with an inline element
-        </span>
+        </span> */}
       </div>
     </nav>
     </>

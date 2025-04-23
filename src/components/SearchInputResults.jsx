@@ -25,7 +25,7 @@ const SearchInputResults = ({regArr}) => {
       <li key={reg.vehicleId} >
         <div>
         <b>{reg?.plateNumber}, {'£'+reg?.price} </b>,
-        <span className={`availability ${reg?.available ? 'available' : 'unavailable'}`}>
+          <span className={`availability ${reg?.available ? 'available' : 'unavailable'}`}>
           {reg?.available ? "available" : "unavailable"}
         </span> 
         </div>

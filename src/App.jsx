@@ -7,6 +7,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; 
 import EditPlatePage from './pages/EditPlatePage'
 import ViewPlatePage from './pages/ViewPlatePage'
+import TransactionPage from './pages/TransactionPage'
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
       <Route path="/register-plate" element={<RegisterPlatePage/>}/>
       <Route path="/plate/edit/:id" element = {<EditPlatePage/>}/>
       <Route path="/plate/view/:id" element={<ViewPlatePage/>}/>
+      <Route path="/transactions" element={<TransactionPage/>}/>
     </Routes>
     <ToastContainer />
     </>
