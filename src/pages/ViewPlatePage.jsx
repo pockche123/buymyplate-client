@@ -10,6 +10,7 @@ const ViewPlatePage = () => {
     const [loading, setLoading] = useState(true);
     const {user} = useAuth() 
     const isCustomer = user?.role === 'CUSTOMER'
+    
 
 
     useEffect(() => {
