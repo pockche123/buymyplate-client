@@ -1,6 +1,6 @@
 import axiosInstance from './axiosInstance';
 
-export const getVehiclePlatesByInput = (input, page = 0, size = 10) => 
+export const getVehiclePlatesByInput = (input, page = 0, size = 5) => 
    axiosInstance.get(`/vehiclePlates/reg/${input}`, {
      params: {
        page,
@@ -17,4 +17,10 @@ return response.data;
 
 export const updateVehiclePlate = (id, body) => axiosInstance.patch(`/vehiclePlates/${id}`,body)
 
-export const getVehiclePlatesByCustomerId = (id) => axiosInstance.get(`/vehiclePlates/customerId/${id}`)
+export const getVehiclePlatesByCustomerId = (id, page = 0, size = 5
+) => axiosInstance.get(`/vehiclePlates/customerId/${id}`, {
+   params: {
+      page,
+      size
+   }
+})

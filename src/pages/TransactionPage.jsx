@@ -33,7 +33,7 @@ const TransactionPage = () => {
           const response = await getAllTransactions(page, itemsPerPage);
           setarr(response.data.content);
           setTotalPages(response.data.page.totalPages);
-          setCurrentPage(page); // ✅ Update currentPage after successful fetch
+          setCurrentPage(page); 
                     console.log("page: ", page, "items: ", itemsPerPage, "Calling once")
 
         } catch (error) {
@@ -59,7 +59,7 @@ const TransactionPage = () => {
     //     }
     // };
 
-    // if (isLoading) return <div>Loading...</div>; // Show loader
+    if (isLoading) return <div>Loading...</div>; // Show loader
 
 
   return (
