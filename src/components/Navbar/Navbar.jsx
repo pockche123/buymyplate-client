@@ -7,8 +7,10 @@ const Navbar = () => {
   const [isNavbarCollapsed, setIsNavbarCollapsed] = useState(true);
   const {user} = useAuth();
   const isAdmin = user?.role === 'ADMIN'
+  const id = user?.id;
   // const isAdmin = 'ADMIN';
   const isCustomer = user?.role === 'CUSTOMER'
+  // const isCustomer = ''
   const isLoggedIn = user !== null;
     //  const isAdmin = true
 
@@ -47,6 +49,15 @@ const Navbar = () => {
             <Link className="nav-link" to="/transactions">Transactions</Link>
           </li>
           </>
+          )
+        }
+        {
+          isCustomer && (
+            <>
+            <li className="nav-item">
+              <Link className="nav-link" to={`/my-plates/${id}`}>  My plates</Link>
+            </li>
+            </>
           )
         }
         </ul>

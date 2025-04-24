@@ -53,20 +53,23 @@
   
   .available {
     color: #00ff00;
-    text-shadow: 
+
+    font-weight: bolder;
+    /* text-shadow: 
       0 0 5px #00ff00,
       0 0 7px #00ff00,
-      0 0 10px #00ff00;
-    animation: neonPulse 1.5s infinite alternate;
+      0 0 10px #00ff00; */
+    /* animation: neonPulse 1.5s infinite alternate; */
   }
   
   .unavailable {
     color: #ff0000;
-    text-shadow: 
+    font-weight: bolder;
+    /* text-shadow: 
       0 0 5px #ff0000,
       0 0 7px #ff0000,
-      0 0 10px #ff0000;
-    animation: neonPulseRed 1.5s infinite alternate;
+      0 0 10px #ff0000; */
+    /* animation: neonPulseRed 1.5s infinite alternate; */
   }
   
   @keyframes neonPulse {

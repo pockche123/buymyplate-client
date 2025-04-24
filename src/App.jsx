@@ -9,6 +9,7 @@ import EditPlatePage from './pages/EditPlatePage'
 import ViewPlatePage from './pages/ViewPlatePage'
 import TransactionPage from './pages/TransactionPage'
 import { useAuth } from './context/AuthContext'
+import ViewCustomerPlatesPage from './pages/ViewCustomerPlatesPage'
 
 function App() {
   const {login} = useAuth();
@@ -22,6 +23,7 @@ function App() {
       <Route path="/plate/edit/:id" element = {<EditPlatePage/>}/>
       <Route path="/plate/view/:id" element={<ViewPlatePage/>}/>
       <Route path="/transactions" element={<TransactionPage/>}/>
+      <Route path="/my-plates/:id" element={<ViewCustomerPlatesPage/>}/>
     </Routes>
     <ToastContainer />
     </>

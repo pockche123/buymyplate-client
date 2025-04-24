@@ -16,3 +16,5 @@ return response.data;
 } 
 
 export const updateVehiclePlate = (id, body) => axiosInstance.patch(`/vehiclePlates/${id}`,body)
+
+export const getVehiclePlatesByCustomerId = (id) => axiosInstance.get(`/vehiclePlates/customerId/${id}`)
