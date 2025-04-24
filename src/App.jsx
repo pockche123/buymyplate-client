@@ -10,6 +10,7 @@ import ViewPlatePage from './pages/ViewPlatePage'
 import TransactionPage from './pages/TransactionPage'
 import { useAuth } from './context/AuthContext'
 import ViewCustomerPlatesPage from './pages/ViewCustomerPlatesPage'
+import BalancePage from './pages/BalancePage'
 
 function App() {
   const {login} = useAuth();
@@ -24,6 +25,7 @@ function App() {
       <Route path="/plate/view/:id" element={<ViewPlatePage/>}/>
       <Route path="/transactions" element={<TransactionPage/>}/>
       <Route path="/my-plates/:id" element={<ViewCustomerPlatesPage/>}/>
+      <Route path="/my-balance/:id" element={<BalancePage/>}/>
     </Routes>
     <ToastContainer />
     </>

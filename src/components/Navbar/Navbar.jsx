@@ -57,6 +57,9 @@ const Navbar = () => {
             <li className="nav-item">
               <Link className="nav-link" to={`/my-plates/${id}`}>  My plates</Link>
             </li>
+            <li className="nav-item">
+              <Link className="nav-link" to={`/my-balance/${id}`}>  My Balance</Link>
+            </li>
             </>
           )
         }
