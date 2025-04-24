@@ -8,8 +8,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import EditPlatePage from './pages/EditPlatePage'
 import ViewPlatePage from './pages/ViewPlatePage'
 import TransactionPage from './pages/TransactionPage'
+import { useAuth } from './context/AuthContext'
 
 function App() {
+  const {login} = useAuth();
 
   return (
     <>

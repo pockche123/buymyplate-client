@@ -1,10 +1,14 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import '../assets/list.css'
+import { useAuth } from '../context/AuthContext';
 
 
 const SearchInputResults = ({regArr}) => {
     const navigate = useNavigate();
+    const {user} = useAuth();
+    const isAdmin = user?.role === 'ADMIN'
+    const isCustomer = user?.role === 'CUSTOMER'
 
 
 
@@ -31,7 +35,10 @@ const SearchInputResults = ({regArr}) => {
         </div>
         <div>
         <button className="btn btn-info"onClick={() => handleViewButton(reg.vehicleId)}>View</button> &nbsp; &nbsp;
+        {isAdmin && 
         <button className="btn btn-warning" onClick={() => handleUpdateButton(reg.vehicleId)}>Update</button>
+        }
+
         </div>
       </li>
     ))}

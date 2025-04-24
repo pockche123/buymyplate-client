@@ -74,7 +74,7 @@ const usePlateform = ({mode, initialData, onSubmit}) => {
         price: Number(price),
         customerId: available ? null: customerId,
       };
-      // console.log("Body: " , body, ", vehicleId: ", initialData.vehicleId)
+      console.log("Body: " , body, ", vehicleId: ", initialData.vehicleId)
 
       try{
         if(mode === 'create'){
@@ -82,9 +82,8 @@ const usePlateform = ({mode, initialData, onSubmit}) => {
             toast.success("New vehicle plate registered!")
             navigate('/plate/view/' + response.vehicleId)
         } else if (mode === 'edit'){
-
-            await updateVehiclePlate(initialData.vehicleId, body); 
-            toast.success("Plate updated successfully!")
+          console.log("Body inside : " , body, ", vehicleId: ", initialData.vehicleId)
+             toast.success("Plate updated successfully!")
             onSubmit?.();
     
         }
