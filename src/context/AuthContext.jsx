@@ -3,7 +3,12 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 const AuthContext = createContext();
 
 export function AuthProvider({children}){
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState( {
+      id: 1,
+      username: "user123",
+      role: 'CUSTOMER',
+      token: 'mock-jwt-token'
+    });
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
@@ -56,6 +61,7 @@ export function AuthProvider({children}){
           return { success: false, error: error.message };
         }
       };
+      console.log("user in auth: ", user)
 
 
       const value = {
