@@ -49,6 +49,15 @@ const Navbar = () => {
           </>
           )
         }
+        {
+          isCustomer && (
+            <>
+            <li className="nav-item">
+              <Link className="nav-link" to="/my-plates">My plates</Link>
+            </li>
+            </>
+          )
+        }
         </ul>
         {/* <span className="navbar-text">
           Navbar text with an inline element
