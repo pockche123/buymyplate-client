@@ -1,5 +1,3 @@
 import axiosInstance from './axiosInstance'; 
 
-const getBalanceByCustomerId = (customerId) => {
-    axiosInstance.get("/balance/" + customerId)
-}
+export const getBalanceByCustomerId = (customerId) => axiosInstance.get("/balance/customerId/" + customerId);
