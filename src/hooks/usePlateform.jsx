@@ -74,7 +74,7 @@ const usePlateform = ({mode, initialData, onSubmit}) => {
         price: Number(price),
         customerId: available ? null: customerId,
       };
-      console.log("Body: " , body, ", vehicleId: ", initialData.vehicleId)
+      // console.log("Body: " , body, ", vehicleId: ", initialData?.vehicleId)
 
       try{
         if(mode === 'create'){

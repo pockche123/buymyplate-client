@@ -7,7 +7,8 @@ import { useAuth } from '../context/AuthContext';
 const SearchInputResults = ({regArr}) => {
     const navigate = useNavigate();
     const {user} = useAuth();
-    const isAdmin = user?.role === 'ADMIN'
+    // const isAdmin = user?.role === 'ADMIN'
+    const isAdmin = 'ADMIN'
     const isCustomer = user?.role === 'CUSTOMER'
 
 
