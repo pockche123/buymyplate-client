@@ -13,6 +13,7 @@ import ViewCustomerPlatesPage from './pages/ViewCustomerPlatesPage'
 import BalancePage from './pages/BalancePage'
 import BuyPlatePage from './pages/BuyPlatePage'
 import LoginPage from './pages/LoginPage'
+import ProtectedRoute from './components/ProtectedRoute'
 
 function App() {
   const {login} = useAuth();
@@ -21,15 +22,23 @@ function App() {
     <>
     <Navbar/>
     <Routes>
-      <Route path="/" element={<Home/>}/>
-      <Route path="/register-plate" element={<RegisterPlatePage/>}/>
-      <Route path="/plate/edit/:id" element = {<EditPlatePage/>}/>
-      <Route path="/plate/view/:id" element={<ViewPlatePage/>}/>
-      <Route path="/transactions" element={<TransactionPage/>}/>
-      <Route path="/my-plates/:id" element={<ViewCustomerPlatesPage/>}/>
-      <Route path="/my-balance/:id" element={<BalancePage/>}/>
-      <Route path="/buy-plate/:id" element={<BuyPlatePage/>}/>
+    <Route path="/" element={<Home/>}/>
+
       <Route path="/login" element={<LoginPage/>}/>
+      <Route path="/plate/view/:id" element={<ViewPlatePage/>}/>
+      <Route element={<ProtectedRoute/>}>
+        <Route path="/dashboard" element={<Home/>}/>
+      </Route>
+      <Route element={<ProtectedRoute roles={['CUSTOMER']}/>}>
+        <Route path="/my-plates/:id" element={<ViewCustomerPlatesPage/>}/>
+        <Route path="/my-balance/:id" element={<BalancePage/>}/>
+        <Route path="/buy-plate/:id" element={<BuyPlatePage/>}/>
+      </Route>
+      <Route element={<ProtectedRoute roles={['ADMIN']}/>}>
+        <Route path="/register-plate" element={<RegisterPlatePage/>}/>
+        <Route path="/plate/edit/:id" element = {<EditPlatePage/>}/>
+        <Route path="/transactions" element={<TransactionPage/>}/>
+      </Route> 
     </Routes>
     <ToastContainer />
     </>

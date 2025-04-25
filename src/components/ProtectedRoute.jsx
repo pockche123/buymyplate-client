@@ -1,9 +1,9 @@
 import React from 'react'
 import { useAuth } from '../context/AuthContext'
-import { Navigate, useLocation } from 'react-router-dom';
+import { Navigate, useLocation, Outlet } from 'react-router-dom';
 
-const ProtectedRoute = ({children}) => {
-    const{isAuthenticated, isLoading} = useAuth(); 
+const ProtectedRoute = ({roles}) => {
+    const{isAuthenticated, isLoading, role} = useAuth(); 
     const location = useLocation();
 
     if(isLoading){
@@ -13,7 +13,13 @@ const ProtectedRoute = ({children}) => {
     if(!isAuthenticated){
         return <Navigate to="/login" state={{from: location}} replace/>
     }
-  return children;
+
+    if (roles && !roles.includes(role)) {
+        return <Navigate to="/login" state={{from: location}} replace />; // Redirect to home if role doesn't match
+    }
+
+    // Use Outlet to render child routes
+    return <Outlet />;
 }
 
 export default ProtectedRoute

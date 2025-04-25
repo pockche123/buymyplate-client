@@ -19,7 +19,7 @@ const LoginPage = () => {
             const result = await login({username, password})
             if(result.success){
                 toast.success("Login successful!")
-                navigate('/')
+                navigate('/dashboard')
             } else{
                 toast.error("Login failed. Wrong credentials.")
             }
@@ -49,8 +49,6 @@ const LoginPage = () => {
                 </div>
                 <button className="btn btn-primary" type="submit" >Login</button>
             </form>
-
-
         </div>
         </div>
     </div>

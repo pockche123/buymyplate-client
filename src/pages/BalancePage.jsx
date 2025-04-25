@@ -15,9 +15,6 @@ const BalancePage = () => {
         try {
           const response = await getBalanceByCustomerId(id)
           setBalanceData(response.data)
-          console.log("response: ", response)
-        // const response = await fetch("http://localhost:8080/v1/balance/customerId/" + id )
-        // console.log("balance response: " , response)
         } catch (error) {
             console.log(error)
         }
