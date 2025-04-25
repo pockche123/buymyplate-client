@@ -34,7 +34,6 @@ const BalancePage = () => {
             <div className="card my-3">
                 <b>Amount(in £): </b>
                 <input className="form-control" value={balanceData.amount} disabled />
-
             </div>
         )
     }
