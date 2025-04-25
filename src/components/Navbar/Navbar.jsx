@@ -73,11 +73,9 @@ const Navbar = () => {
           isLoggedIn  ? (
           
               <Link className="nav-link" to=""> Logout <FontAwesomeIcon icon={faSignOutAlt} className="icon logout-icon" /></Link>
-  
 
           ) : (
-            <Link className="nav-link" to=""> Login<FontAwesomeIcon icon={faSignOutAlt} className="icon login-icon" /></Link>
-
+            <Link className="nav-link" to=""> Login<FontAwesomeIcon icon={faSignInAlt} className="icon login-icon" /></Link>
           )
         }
 
