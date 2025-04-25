@@ -73,7 +73,7 @@ const BuyPlatePage = () => {
       // Update vehicle plate
       const plateResponse = await updateVehiclePlate(vehicleId, {
         available: false,
-        customerId,
+        customerId: customerId
       });
 
       if (plateResponse?.error) {
@@ -81,7 +81,7 @@ const BuyPlatePage = () => {
       }
 
       toast.success('Registration plate purchased successfully');
-      navigate('/all-purchases');
+      navigate('/my-plates/' + customerId);
     } catch (error) {
       toast.error(`Purchase failed: ${error.message || 'Please try again'}`);
       

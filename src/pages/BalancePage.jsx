@@ -27,18 +27,18 @@ const BalancePage = () => {
 
 
   return (
-    <>
+    <div className="container mt-4">
     <h3>My Balance</h3>
     {
         balanceData && ( 
-            <>
-                <b>Amount: </b>
-                <h5>{balanceData.amount}</h5>
+            <div className="card my-3">
+                <b>Amount(in £): </b>
+                <input className="form-control" value={balanceData.amount} disabled />
 
-            </>
+            </div>
         )
     }
-    </>
+    </div>
   )
 }
 

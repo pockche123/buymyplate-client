@@ -2,6 +2,9 @@ import React, {useState} from 'react'
 import './Navbar.css'
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSignInAlt, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+ 
 
 const Navbar = () => {
   const [isNavbarCollapsed, setIsNavbarCollapsed] = useState(true);
@@ -23,6 +26,7 @@ const Navbar = () => {
     <>
     
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
+      <div className="container-fluid">
       <a className="navbar-brand" href="#">BuyMyPlate</a>
       <button
         className="navbar-toggler"
@@ -39,7 +43,7 @@ const Navbar = () => {
           <li className="nav-item active">
           <Link className="nav-link" to="/">Home</Link>
           </li>
-          {isAdmin &&(
+          {isAdmin && isLoggedIn && (
             <>
           <li className="nav-item">
           <Link className="nav-link" to="/register-plate">Register Plate </Link>
@@ -52,7 +56,7 @@ const Navbar = () => {
           )
         }
         {
-          isCustomer && (
+          isCustomer && isLoggedIn &&(
             <>
             <li className="nav-item">
               <Link className="nav-link" to={`/my-plates/${id}`}>  My plates</Link>
@@ -64,9 +68,24 @@ const Navbar = () => {
           )
         }
         </ul>
-        {/* <span className="navbar-text">
-          Navbar text with an inline element
-        </span> */}
+        <ul className="navbar-nav ms-auto">
+        {
+          isLoggedIn  ? (
+          
+              <Link className="nav-link" to=""> Logout <FontAwesomeIcon icon={faSignOutAlt} className="icon logout-icon" /></Link>
+  
+
+          ) : (
+            <Link className="nav-link" to=""> Login<FontAwesomeIcon icon={faSignOutAlt} className="icon login-icon" /></Link>
+
+          )
+        }
+
+
+        </ul>
+        </div>
+      
+      
       </div>
     </nav>
     </>
