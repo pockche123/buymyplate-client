@@ -43,7 +43,7 @@ const ViewCustomerPlatesPage = () => {
       <h3>My plates</h3>
       {arr && arr.length > 0 ? (
         <>
-          <SearchInputResults regArr={arr} />
+          <SearchInputResults regArr={arr} myplates={true} />
           <PaginationCard
             fetchResults={fetchAllVehiclePlatesByCustomerId}
             currentPage={page}

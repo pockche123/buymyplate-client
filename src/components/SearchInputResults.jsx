@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "../assets/list.css";
 import { useAuth } from "../context/AuthContext";
 
-const SearchInputResults = ({ regArr }) => {
+const SearchInputResults = ({ regArr, myplates }) => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const isAdmin = user?.role === "ADMIN";
@@ -27,13 +27,15 @@ const SearchInputResults = ({ regArr }) => {
             <b>
               {reg?.plateNumber}, {"£" + reg?.price}{" "}
             </b>
-            ,
+            {!myplates && (
             <span
               className={`availability ${reg?.available ? "available" : "unavailable"
                 }`}
             >
-              {reg?.available ? "available" : "unavailable"}
+             {reg?.available ? "available" : "unavailable"}
             </span>
+            )
+}
           </div>
           <div>
             <button

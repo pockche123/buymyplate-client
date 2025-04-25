@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import RegionDropDown from './RegionDropDown/RegionDropDown'
 import StandardRegPlateInput from './StandardRegPlateInput'
 import AvailabilityToggle from './AvailabilityToggle'
@@ -8,6 +8,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { updateVehiclePlate } from '../api/vehiclePlateApi'
 import { toast } from 'react-toastify'
+import BuyPlate from './BuyPlate'
 
 const PlateFormCard = ({
     mode,
@@ -31,6 +32,7 @@ const PlateFormCard = ({
 
     const {user} = useAuth()
     const isCustomer = user?.role === 'CUSTOMER'
+    const [buy, setBuy] = useState(false);
 
     console.log(user)
 
@@ -39,20 +41,22 @@ const PlateFormCard = ({
     }
 
     const handlePurchase = () => {
-      try {
-        const body = {
-          available: false,
-          customerId: user?.id
-        }
+      navigate("/buy-plate/" + vehicleId)
+   
+      // try {
+      //   const body = {
+      //     available: false,
+      //     customerId: user?.id
+      //   }
 
-        const response = updateVehiclePlate(vehicleId, body)
-        toast.success("Congratulations! Reg Plate purchased successfully")
-        navigate("/all-purchases")
+      //   const response = updateVehiclePlate(vehicleId, body)
+      //   toast.success("Congratulations! Reg Plate purchased successfully")
+      //   navigate("/all-purchases")
 
-      } catch (error) {
-        toast.error("Error while purchasing: ", error)
+      // } catch (error) {
+      //   toast.error("Error while purchasing: ", error)
         
-      }
+      // }
     }
   
 
@@ -100,6 +104,7 @@ const PlateFormCard = ({
     Go back
   </button>
   </div>
+ 
   </>
 
   )
