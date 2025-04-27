@@ -35,7 +35,7 @@ const usePlateform = ({mode, initialData, onSubmit}) => {
 
  
   const [personalised, setPersonalised] = useState(initialData?.personalised ||null);
-  const [customerId, setCustomerId] = useState(initialData?.customerId || null)
+  const [userId, setuserId] = useState(initialData?.userId || null)
   
   // Error states
   const [errors, setErrors] = useState([false, false]);
@@ -56,10 +56,6 @@ const usePlateform = ({mode, initialData, onSubmit}) => {
 
 //   checking to see both plates present
   useEffect(() => {
-    // console.log("select tag false", selectTag !== "Select Tag")
-    // console.log("select region falsy", selectedRegion !== "Select Region")
-    // console.log("values are not empty" ,values?.some((v) => v !== undefined ))
-    // console.log("values" , values)
     const hasStandard = (  selectTag !== "Select Tag") ||( selectedRegion !== "Select Region") || values?.some((v) =>  v);
     const hasCustom = customPlate && customPlate.length > 0;
     setBothPresentError(hasStandard && hasCustom);
@@ -72,9 +68,8 @@ const usePlateform = ({mode, initialData, onSubmit}) => {
         personalised: customPlate.length > 0,
         available: available,
         price: Number(price),
-        customerId: available ? null: customerId,
+        userId: available ? null: userId,
       };
-      // console.log("Body: " , body, ", vehicleId: ", initialData?.vehicleId)
 
       try{
         if(mode === 'create'){
@@ -82,8 +77,11 @@ const usePlateform = ({mode, initialData, onSubmit}) => {
             toast.success("New vehicle plate registered!")
             navigate('/plate/view/' + response.vehicleId)
         } else if (mode === 'edit'){
-          console.log("Body inside : " , body, ", vehicleId: ", initialData.vehicleId)
-             toast.success("Plate updated successfully!")
+          const response = await updateVehiclePlate(initialData.vehicleId, body)
+          if(!response){
+            throw Error("Error updating vehicle")
+          }
+          toast.success("Plate updated successfully!")
             onSubmit?.();
     
         }
@@ -132,8 +130,8 @@ const usePlateform = ({mode, initialData, onSubmit}) => {
     bothPresentError,
     formTitle,
     isViewMode,
-    customerId,
-    setCustomerId,
+    userId,
+    setuserId,
     renderErrors,
     handleSubmit, 
     personalised,

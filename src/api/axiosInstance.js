@@ -22,18 +22,19 @@ const authStorage = {
 const axiosInstance = axios.create({
   baseURL: 'http://localhost:8080/v1',
   headers: {
-    'Content-Type': 'application/json',
-    'Cache-Control': 'no-store, max-age=0'
-  },
-  withCredentials: true
+    'Content-Type': 'application/json'
+  }
 });
 
 // Request interceptor
 axiosInstance.interceptors.request.use(async (config) => {
+//   const publicPatterns = [/^\/vehiclePlates(\/|$)/];
+// if (publicPatterns.some(pattern => pattern.test(config.url))) {
+//   return config;
+// }
   let token = authStorage.getAccessToken();
   
   if (!token) {
-    // Handle missing token (don't navigate here - handle in components)
     throw new axios.Cancel('No auth token available');
   }
   

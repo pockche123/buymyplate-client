@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { toast } from 'react-toastify';
 import { 
@@ -74,14 +74,14 @@ const BuyPlatePage = () => {
       // Update vehicle plate
       const plateResponse = await updateVehiclePlate(vehicleId, {
         available: false,
-        customerId: customerId
+        userId: customerId
       });
 
       if (plateResponse?.error) {
         throw new Error('Failed to update plate status');
       }
       const transactionResponse = await createTransaction({
-        customerId: customerId, 
+        userId: customerId, 
         vehiclePlateId: vehicleId,
         pricePaid: plateData.price,
         transactionDate: new Date().toISOString().split('T')[0]
@@ -109,7 +109,7 @@ const BuyPlatePage = () => {
     } finally {
       setIsProcessing(false);
     }
-  }, [balanceData, plateData, customerId, vehicleId, isProcessing, navigate]);
+  }, [balanceData, plateData, customerId, vehicleId, isProcessing]);
 
   useEffect(() => {
     fetchPlate();
@@ -118,7 +118,11 @@ const BuyPlatePage = () => {
 
   return (
     <div className="container mt-4">
-      <h3>Buy Plate</h3>
+      <div className="card">
+    <div className="card-header position-relative"> {/* Needed for absolute positioning */}
+      <button className="btn btn-warning position-absolute start-0 ms-3" onClick={() =>navigate(-1)}>Go Back</button>
+      <h3 className="text-center mb-0">Buy Plate</h3> {/* Center the title */}
+    </div>
       <div className="card my-3">
         <div className="card-body">
           <h2 className="card-title">{plateData?.plateNumber}</h2>
@@ -144,6 +148,7 @@ const BuyPlatePage = () => {
             </div>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );
