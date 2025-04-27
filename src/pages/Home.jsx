@@ -21,9 +21,14 @@ const Home = () => {
   }
 
       useEffect(() => {
+        if(regInput){
           fetchResults(currentPage)
+        }
       }, [itemsPerPage])
+
+
   const fetchResults = async (page = 0) => {
+   
     setIsLoading(true);
     try {
       const response = await getVehiclePlatesByInput(regInput, page, itemsPerPage )

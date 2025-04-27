@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { loginWithKeycloak } from '../api/authApi';
 import { getUserInfo } from '../api/userApi';
 
@@ -10,23 +10,32 @@ export function AuthProvider({children}){
     const [isLoading, setIsLoading] = useState(true);
   
 
-    useEffect(() => {
-        checkSavedSession();
-      }, []);
-    
-    const checkSavedSession = async () => {
-        try {
-          // Check localStorage or make API call to verify session
-          const savedUser = localStorage.getItem('user');
-          if (savedUser) {
-            setUser(JSON.parse(savedUser));
-          }
-        } catch (error) {
-          console.error('Session check failed:', error);
-        } finally {
-          setIsLoading(false);
+    const checkSavedSession = useCallback(async () => {
+      setIsLoading(true);
+      try {
+        const savedUser = localStorage.getItem('user');
+        const accessToken = localStorage.getItem('accessToken');
+        const refreshToken = localStorage.getItem('refreshToken');
+  
+        if (savedUser && accessToken) {
+          setUser(JSON.parse(savedUser));
+        } else {
+          clearSession();
         }
-      };
+      } catch (error) {
+        console.error('Session check failed:', error);
+        clearSession();
+      } finally {
+        setIsLoading(false);
+      }
+    }, []);
+  
+    const clearSession = () => {
+      localStorage.removeItem('user');
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      setUser(null);
+    };
 
       const login = async (username,password) => {
         try {
@@ -73,12 +82,18 @@ export function AuthProvider({children}){
       };
 
       const logout = () => {
-        setUser(null);
-        localStorage.removeItem('user');
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
+        clearSession();
       };
+    
+      // Check session on mount and clean up on unmount
+      useEffect(() => {
+        checkSavedSession();
+        const interval = setInterval(checkSavedSession, 15 * 60 * 1000); // Check every 15 mins
+        
+        return () => clearInterval(interval);
+      }, [checkSavedSession]);
 
+      
       console.log("user in auth: ", user)
 
       const value = {
