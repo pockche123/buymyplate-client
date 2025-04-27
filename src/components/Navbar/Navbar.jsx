@@ -10,7 +10,7 @@ const Navbar = () => {
   const [isNavbarCollapsed, setIsNavbarCollapsed] = useState(true);
   const {user, logout} = useAuth();
   const isAdmin = user?.role === 'ADMIN'
-  const id = user?.id;
+  const id = user?.userId;
   const isCustomer = user?.role === 'CUSTOMER'
   const isLoggedIn = user !== null;
 

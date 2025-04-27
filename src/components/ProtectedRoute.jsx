@@ -10,15 +10,10 @@ const ProtectedRoute = ({roles}) => {
         return <div>Loading...</div>
     }
 
-    if(!isAuthenticated){
+    if(!isAuthenticated || (roles && !roles.includes(role))){
         return <Navigate to="/login" state={{from: location}} replace/>
     }
 
-    if (roles && !roles.includes(role)) {
-        return <Navigate to="/login" state={{from: location}} replace />; // Redirect to home if role doesn't match
-    }
-
-    // Use Outlet to render child routes
     return <Outlet />;
 }
 

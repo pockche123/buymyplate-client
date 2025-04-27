@@ -1,10 +1,14 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { loginWithKeycloak } from '../api/authApi';
+import { getUserInfo } from '../api/userApi';
+
 
 const AuthContext = createContext();
 
 export function AuthProvider({children}){
     const [user, setUser] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
+  
 
     useEffect(() => {
         checkSavedSession();
@@ -24,20 +28,46 @@ export function AuthProvider({children}){
         }
       };
 
-      const login = async (credentials) => {
+      const login = async (username,password) => {
         try {
-          // Replace with actual API call
-          const mockUser = {
-            // id: 1,
-            // username: "user123",
-            // role: 'CUSTOMER',
-            // token: 'mock-jwt-token'
-          };
-    
-          setUser(mockUser);
-          localStorage.setItem('user', JSON.stringify(mockUser));
+          console.log("inside login")
+          
+          const keycloakResponse= await loginWithKeycloak(username,password)
+
+              
+          if (!keycloakResponse?.access_token) {
+            throw new Error('No access token received');
+        }
+
+          console.log("key: ", keycloakResponse)
+        
+          // const data = await response.json();
+          
+          localStorage.setItem("accessToken", keycloakResponse.access_token);
+          localStorage.setItem("refreshToken", keycloakResponse.refresh_token);
+          localStorage.setItem("tokenExpiry", Date.now() + keycloakResponse.expires_in * 1000);
+          
+          const userInfo = await getUserInfo();
+
+          console.log("this is user info: ", userInfo)
+
+          if(!userInfo){
+            throw new Error("User not found")
+          }
+
+
+          const userData = {
+            userId: userInfo.data.userId,
+            username: userInfo.data.username,
+            role: userInfo.data.role,
+
+          }
+        
+          setUser(userData);
+          localStorage.setItem('user', JSON.stringify(userData));
           return { success: true };
         } catch (error) {
+          console.log("Login error: ", error)
           return { success: false, error: error.message };
         }
       };
@@ -45,6 +75,8 @@ export function AuthProvider({children}){
       const logout = () => {
         setUser(null);
         localStorage.removeItem('user');
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
       };
 
       console.log("user in auth: ", user)

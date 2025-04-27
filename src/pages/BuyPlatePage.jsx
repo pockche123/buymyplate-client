@@ -10,6 +10,7 @@ import {
   getBalanceByCustomerId,
   updateBalance 
 } from '../api/balanceApi';
+import { createTransaction } from '../api/transactionApi';
 
 const BuyPlatePage = () => {
   const [plateData, setPlateData] = useState(null);
@@ -17,7 +18,7 @@ const BuyPlatePage = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const { id: vehicleId } = useParams();
   const { user } = useAuth();
-  const customerId = user?.id;
+  const customerId = user?.userId;
   const navigate = useNavigate();
 
   const fetchPlate = useCallback(async () => {
@@ -79,6 +80,18 @@ const BuyPlatePage = () => {
       if (plateResponse?.error) {
         throw new Error('Failed to update plate status');
       }
+      const transactionResponse = await createTransaction({
+        customerId: customerId, 
+        vehiclePlateId: vehicleId,
+        pricePaid: plateData.price,
+        transactionDate: new Date().toISOString().split('T')[0]
+      })
+
+      if(!transactionResponse){
+        throw new Error("Failed to create transaction")
+      }
+
+
 
       toast.success('Registration plate purchased successfully');
       navigate('/my-plates/' + customerId);

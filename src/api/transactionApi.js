@@ -8,3 +8,9 @@ export const getAllTransactions = (page = 0, size = 10) =>
         size
       }
     });
+
+
+export const createTransaction = async(body) =>{
+    const response = await  axiosInstance.post('/transactions', body); 
+    return response.data;
+   } 

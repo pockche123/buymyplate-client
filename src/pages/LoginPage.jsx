@@ -4,24 +4,25 @@ import { useAuth } from '../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
 
 const LoginPage = () => {
-    const[username, setUsername] = useState()
-    const[password, setPassword] = useState()
+    const[username, setUsername] = useState('')
+    const[password, setPassword] = useState('')
     const {login} = useAuth()
     const navigate = useNavigate()
  
 
-    const handleLogin = async() => {
+    const handleLogin = async(e) => {
+        e.preventDefault()
         const body = {
             username: username,
             password: password
         }
         try {
-            const result = await login({username, password})
+            const result = await login(username, password)
             if(result.success){
                 toast.success("Login successful!")
                 navigate('/dashboard')
             } else{
-                toast.error("Login failed. Wrong credentials.")
+                toast.error("Login failed. " + result.error)
             }
             
         } catch (error) {
