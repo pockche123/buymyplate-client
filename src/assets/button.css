@@ -78,3 +78,21 @@
     padding: 1em;
     gap: 10px;
   }
+
+
+  .input-group {
+    position: relative;
+}
+
+.password-input {
+    padding-right: 30px;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    z-index: 2;
+}

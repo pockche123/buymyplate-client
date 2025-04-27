@@ -26,12 +26,8 @@ const axiosInstance = axios.create({
   }
 });
 
-// Request interceptor
+
 axiosInstance.interceptors.request.use(async (config) => {
-//   const publicPatterns = [/^\/vehiclePlates(\/|$)/];
-// if (publicPatterns.some(pattern => pattern.test(config.url))) {
-//   return config;
-// }
   let token = authStorage.getAccessToken();
   
   if (!token) {
