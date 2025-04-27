@@ -30,7 +30,7 @@ const BalancePage = () => {
         balanceData && ( 
             <div className="card my-3">
                 <b>Amount(in £): </b>
-                <input className="form-control" value={balanceData.amount} disabled />
+                <input className="form-control" value={balanceData.amount.toFixed(2)} disabled />
             </div>
         )
     }
