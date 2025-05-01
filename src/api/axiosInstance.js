@@ -54,17 +54,6 @@ axiosInstance.interceptors.request.use(async (config) => {
 });
 
 
-// axiosInstance.interceptors.request.use(async (config) => {
-//   let token = authStorage.getAccessToken();
-  
-//   if (!token) {
-//     throw new axios.Cancel('No auth token available');
-//   }
-  
-//   config.headers.Authorization = `Bearer ${token}`;
-//   return config;
-// });
-
 // Response interceptor for token refresh
 axiosInstance.interceptors.response.use(
   response => response,

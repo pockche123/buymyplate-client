@@ -26,9 +26,9 @@ function App() {
 
       <Route path="/login" element={<LoginPage/>}/>
       <Route path="/plate/view/:id" element={<ViewPlatePage/>}/>
-      <Route element={<ProtectedRoute/>}>
+     
         <Route path="/dashboard" element={<Home/>}/>
-      </Route>
+     
       <Route element={<ProtectedRoute roles={['CUSTOMER']}/>}>
         <Route path="/my-plates/:id" element={<ViewCustomerPlatesPage/>}/>
         <Route path="/my-balance/:id" element={<BalancePage/>}/>

@@ -1,7 +1,7 @@
 import axiosInstance from './axiosInstance';
 
-export const getVehiclePlatesByInput = (input, page = 0, size = 5) => 
-   axiosInstance.get(`/vehiclePlates/reg/${input}`, {
+export const getVehiclePlatesByInput = async(input, page = 0, size = 5) => 
+   await axiosInstance.get(`/vehiclePlates/reg/${input}`, {
      params: {
        page,
        size
