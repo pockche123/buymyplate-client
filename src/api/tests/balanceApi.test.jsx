@@ -1,7 +1,5 @@
 import axiosInstance from "../axiosInstance.jsx";
 import { getBalanceByCustomerId } from "../balanceApi.jsx";
-// const axiosInstance = require("../axiosInstance.js");
-// const { getBalanceByCustomerId } = require("../balanceApi.js")
 
 
 
@@ -27,4 +25,17 @@ describe("getBalanceByCustomerId", () => {
 
 
 })
+
+    it("should handle error properly", async() => {
+        // arrange
+        const customerId = 2; 
+        const error = new Error('Request failed. Customer not found')
+
+        // act
+        axiosInstance.get.mockRejectedValue(error)
+
+        // assert
+        await expect(getBalanceByCustomerId(customerId)).rejects.toThrow(error)
+
+    } )
 })
