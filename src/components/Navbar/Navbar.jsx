@@ -8,18 +8,22 @@ import { faSignInAlt, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 
 const Navbar = () => {
   const [isNavbarCollapsed, setIsNavbarCollapsed] = useState(true);
-  const {user} = useAuth();
+  const {user, logout} = useAuth();
   const isAdmin = user?.role === 'ADMIN'
-  const id = user?.id;
-  // const isAdmin = 'ADMIN';
+  const id = user?.userId;
   const isCustomer = user?.role === 'CUSTOMER'
-  // const isCustomer = ''
   const isLoggedIn = user !== null;
-    //  const isAdmin = true
+
 
   const toggleNavbar = () => {
     setIsNavbarCollapsed(!isNavbarCollapsed);
   };
+
+  const handleLogout = (e) => {
+    e.preventDefault()
+    logout()
+
+  }
 
 
   return (
@@ -72,12 +76,10 @@ const Navbar = () => {
         {
           isLoggedIn  ? (
           
-              <Link className="nav-link" to=""> Logout <FontAwesomeIcon icon={faSignOutAlt} className="icon logout-icon" /></Link>
-  
+              <Link className="nav-link" onClick={handleLogout}> Logout <FontAwesomeIcon icon={faSignOutAlt} className="icon logout-icon" /></Link>
 
           ) : (
-            <Link className="nav-link" to=""> Login<FontAwesomeIcon icon={faSignOutAlt} className="icon login-icon" /></Link>
-
+            <Link className="nav-link" to="/login"> Login<FontAwesomeIcon icon={faSignInAlt} className="icon login-icon" /></Link>
           )
         }
 

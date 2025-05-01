@@ -15,9 +15,6 @@ const BalancePage = () => {
         try {
           const response = await getBalanceByCustomerId(id)
           setBalanceData(response.data)
-          console.log("response: ", response)
-        // const response = await fetch("http://localhost:8080/v1/balance/customerId/" + id )
-        // console.log("balance response: " , response)
         } catch (error) {
             console.log(error)
         }
@@ -33,8 +30,7 @@ const BalancePage = () => {
         balanceData && ( 
             <div className="card my-3">
                 <b>Amount(in £): </b>
-                <input className="form-control" value={balanceData.amount} disabled />
-
+                <input className="form-control" value={balanceData.amount.toFixed(2)} disabled />
             </div>
         )
     }

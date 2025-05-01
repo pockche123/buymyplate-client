@@ -55,7 +55,7 @@ const TransactionResults = ({ arr }) => {
       <tbody>
         {sortedTransactions.map((t) => (
           <tr key={t.transactionId}>
-            <td>{t.customerId}</td>
+            <td>{t.userId}</td>
             <td>{t.vehiclePlateId}</td>
             <td>£{t.pricePaid}</td>
             <td>
