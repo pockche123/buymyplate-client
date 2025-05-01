@@ -1,5 +1,5 @@
-import axiosInstance from "../axiosInstance.jsx";
-import { getBalanceByCustomerId } from "../balanceApi.jsx";
+import axiosInstance from "../axiosInstance.js";
+import { getBalanceByCustomerId } from "../balanceApi.js";
 
 
 
