@@ -9,7 +9,7 @@ import {
 import { 
   getBalanceByCustomerId,
   updateBalance 
-} from '../api/balanceApi';
+} from '../api/balanceApi.js';
 import { createTransaction } from '../api/transactionApi';
 
 const BuyPlatePage = () => {
