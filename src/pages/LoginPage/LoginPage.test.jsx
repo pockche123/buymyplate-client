@@ -9,7 +9,6 @@ import LoginPage from "./LoginPage";
 
 jest.mock('react-router-dom', () => ({
   useNavigate: jest.fn(),
-  // Add other exports if needed (e.g., Link, Navigate)
 }));
 
 jest.mock('react-toastify', () => ({
