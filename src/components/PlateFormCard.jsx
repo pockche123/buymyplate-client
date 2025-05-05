@@ -73,7 +73,6 @@ const PlateFormCard = ({
       </form>
       &nbsp;
       <div>
-
         {
           isCustomer && available &&
           <button type="submit" className="btn btn-info" style={{ margin: '1em' }} onClick={handlePurchase}>
@@ -81,8 +80,6 @@ const PlateFormCard = ({
           </button>
 
         }
-
-
       </div>
 
     </>

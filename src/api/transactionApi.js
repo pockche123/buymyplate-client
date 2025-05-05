@@ -1,4 +1,4 @@
-import axiosInstance from './axiosInstance';
+import axiosInstance from './axiosInstance.js';
 
 
 export const getAllTransactions = (page = 0, size = 10) => 

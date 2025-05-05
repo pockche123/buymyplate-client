@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { getBalanceByCustomerId } from '../api/balanceApi';
+import { getBalanceByCustomerId } from '../api/balanceApi.js';
 
 const BalancePage = () => {
     const[balanceData, setBalanceData] = useState(null); 

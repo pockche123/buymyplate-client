@@ -1,4 +1,4 @@
-import axiosInstance from './axiosInstance'; 
+import axiosInstance from './axiosInstance.js'; 
 
 export const getBalanceByCustomerId = (customerId) => axiosInstance.get("/balance/customerId/" + customerId);
 

@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { toast } from 'react-toastify'
-import { useAuth } from '../context/AuthContext'
+import { useAuth } from '../../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import '../assets/button.css'
+import '../../assets/button.css'
 
 const LoginPage = () => {
     const [username, setUsername] = useState('')
@@ -47,19 +47,27 @@ const LoginPage = () => {
             <h3>Enter login credentials:</h3>
             <div className="card my-3">
                 <div className="card-body">
-                    <form onSubmit={handleLogin}>
+                    <form onSubmit={handleLogin}  data-testid="login-form">
                         <div className="input-group">
-                            <label>Username: </label>
-                            <input className='form-control' type="text" value={username} placeholder='Enter username' onChange={e => setUsername(e.target.value)} />
-                        </div>
-                        &nbsp;
-                        <div className="input-group">
-                            <label>Password:</label>
+                            <label htmlFor="username">Username: </label>
                             <input
-                                className='form-control password-input'
+                                id="username"
+                                className="form-control"
+                                type="text"
+                                value={username}
+                                placeholder="Enter username"
+                                onChange={e => setUsername(e.target.value)}
+                            />
+                        </div>
+
+                        <div className="input-group">
+                            <label htmlFor="password">Password:</label>
+                            <input
+                                id="password"
+                                className="form-control password-input"
                                 type={showPassword ? "text" : "password"}
                                 value={password}
-                                placeholder='Enter password'
+                                placeholder="Enter password"
                                 onChange={e => setPassword(e.target.value)}
                             />
                             <FontAwesomeIcon

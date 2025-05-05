@@ -3,7 +3,6 @@ import axios from 'axios';
 import { refreshAuthToken } from './refreshAuthToken'; 
 
 
-
 // Secure storage abstraction layer
 const authStorage = {
   getAccessToken: () => {

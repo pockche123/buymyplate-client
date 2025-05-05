@@ -21,11 +21,9 @@ const PlateForm = ({
         navigate(-1)
     }
 
-
-
     return (
         <div className="vehicle-plate">
-            <div className="card-header position-relative"> {/* Needed for absolute positioning */}
+            <div className="card-header position-relative"> 
                 <h3 className="text-center mb-0">{form.formTitle}</h3>
                 <button className="btn btn-warning btn-warning position-absolute start-0 ms-3" onClick={handleGoBack} style={{ margin: '1em', top: '-20px' }}>
                     Go back
