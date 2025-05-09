@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import './Navbar.css'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignInAlt, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
@@ -13,6 +13,7 @@ const Navbar = () => {
   const id = user?.userId;
   const isCustomer = user?.role === 'CUSTOMER'
   const isLoggedIn = user !== null;
+  const navigate = useNavigate()
 
 
   const toggleNavbar = () => {
@@ -22,6 +23,8 @@ const Navbar = () => {
   const handleLogout = (e) => {
     e.preventDefault()
     logout()
+    navigate("/login")
+
 
   }
 

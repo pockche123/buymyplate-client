@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { loginWithKeycloak } from '../api/authApi';
 import { getUserInfo } from '../api/userApi';
+import { Navigate } from 'react-router-dom';
 
 
 const AuthContext = createContext();
@@ -83,6 +84,7 @@ export function AuthProvider({children}){
 
       const logout = () => {
         clearSession();
+    
       };
     
       // Check session on mount and clean up on unmount
