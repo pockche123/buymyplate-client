@@ -8,6 +8,7 @@ export const loginWithKeycloak = async(username, password) => {
     params.append('grant_type', 'password');
     params.append('username', username);
     params.append('password', password);
+    params.append('client_secret', 'a1b2c3d4-5678-90ef-ghij-klmnopqrstuv')
 
     try{
         console.log("keycloak  found")

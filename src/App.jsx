@@ -12,8 +12,9 @@ import { useAuth } from './context/AuthContext'
 import ViewCustomerPlatesPage from './pages/ViewCustomerPlatesPage'
 import BalancePage from './pages/BalancePage'
 import BuyPlatePage from './pages/BuyPlatePage'
-import LoginPage from './pages/LoginPage'
+import LoginPage from './pages/LoginPage/LoginPage'
 import ProtectedRoute from './components/ProtectedRoute'
+import PageNotFoundPage from './pages/PageNotFoundPage'
 
 function App() {
   const {login} = useAuth();
@@ -39,6 +40,7 @@ function App() {
         <Route path="/plate/edit/:id" element = {<EditPlatePage/>}/>
         <Route path="/transactions" element={<TransactionPage/>}/>
       </Route> 
+      <Route path="*" element={<PageNotFoundPage/>}/>
     </Routes>
     <ToastContainer />
     </>
