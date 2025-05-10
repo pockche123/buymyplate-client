@@ -1,19 +1,39 @@
 import React, {useState} from 'react'
 import './Navbar.css'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSignInAlt, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+ 
 
 const Navbar = () => {
   const [isNavbarCollapsed, setIsNavbarCollapsed] = useState(true);
+  const {user, logout} = useAuth();
+  const isAdmin = user?.role === 'ADMIN'
+  const id = user?.userId;
+  const isCustomer = user?.role === 'CUSTOMER'
+  const isLoggedIn = user !== null;
+  const navigate = useNavigate()
+
 
   const toggleNavbar = () => {
     setIsNavbarCollapsed(!isNavbarCollapsed);
   };
+
+  const handleLogout = (e) => {
+    e.preventDefault()
+    logout()
+    navigate("/login")
+
+
+  }
 
 
   return (
     <>
     
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
+      <div className="container-fluid">
       <a className="navbar-brand" href="#">BuyMyPlate</a>
       <button
         className="navbar-toggler"
@@ -30,15 +50,47 @@ const Navbar = () => {
           <li className="nav-item active">
           <Link className="nav-link" to="/">Home</Link>
           </li>
+          {isAdmin && isLoggedIn && (
+            <>
           <li className="nav-item">
           <Link className="nav-link" to="/register-plate">Register Plate </Link>
           </li>
+          
           <li className="nav-item">
+            <Link className="nav-link" to="/transactions">Transactions</Link>
           </li>
+          </>
+          )
+        }
+        {
+          isCustomer && isLoggedIn &&(
+            <>
+            <li className="nav-item">
+              <Link className="nav-link" to={`/my-plates/${id}`}>  My plates</Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to={`/my-balance/${id}`}>  My Balance</Link>
+            </li>
+            </>
+          )
+        }
         </ul>
-        <span className="navbar-text">
-          Navbar text with an inline element
-        </span>
+        <ul className="navbar-nav ms-auto">
+        {
+          isLoggedIn  ? (
+          
+              <Link className="nav-link" onClick={handleLogout}> Logout <FontAwesomeIcon icon={faSignOutAlt} className="icon logout-icon" /></Link>
+
+          ) : (
+            <Link className="nav-link" to="/login"> Login<FontAwesomeIcon icon={faSignInAlt} className="icon login-icon" /></Link>
+          )
+        }
+
+
+        </ul>
+        </div>
+      
+      
       </div>
     </nav>
     </>

@@ -1,51 +1,71 @@
 import React, { useEffect, useState } from 'react'
 import { getVehiclePlatesByInput } from '../api/vehiclePlateApi'
+import SearchPlateForm from '../components/SearchPlateForm'
+import SearchInputResults from '../components/SearchInputResults'
+import PaginationCard from '../components/PaginationCard'
 
 const Home = () => {
 
   const [regInput, setRegInput] = useState('')
   const [regArr, setRegArr]  = useState([])
+  const [isLoading, setIsLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
-
- 
 
   const handleSubmit = async(e) => {
     e.preventDefault()
-     await getVehiclePlatesByInput(regInput)
-          .then(res =>{
-            console.log("this is arr: " , res.data.content)
-            setRegArr(res.data.content)
-          }
-          
-          )
-          .catch(e => console.log(e))
+    fetchResults(0)
+
   }
+
+      useEffect(() => {
+        if(regInput){
+          fetchResults(currentPage)
+        }
+      }, [itemsPerPage])
+
+
+  const fetchResults = async (page = 0) => {
+   
+    setIsLoading(true);
+    try {
+      const response = await getVehiclePlatesByInput(regInput, page, itemsPerPage )
+      console.log(response)
+      setRegArr(response.data.content);
+      setTotalPages(response.data.page.totalPages);
+      console.log("totalPages: " , totalPages)
+      setCurrentPage(response.data.page.number);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+ 
 
 
 
   return (
     <>
-    <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="reg-input"></label>
-          <input name="reg-input"   id="reg-input" type="text" placeholder='Enter reg plate here' value={regInput} onChange={e => setRegInput(e.target.value)}/>
-        </div>
-        <button>Search</button>
-    </form>
+    <h3>Search for a reg plate</h3>
+    <SearchPlateForm handleSubmit={handleSubmit} regInput={regInput} setRegInput={setRegInput}/>
+    {isLoading && <p>Loading results...</p>}
+    
+    {/* Fixed rendering section */}
     {regArr && regArr.length > 0 && (
-  <ul>
-    {regArr.map((reg, index) => (
-      <ul>
-      <li key={index}>{reg?.plateNumber}, {'£'+reg?.price}, {reg?.available ? "available": "unavailable"}  </li>
+      <>
+        <SearchInputResults regArr={regArr}/>
+        {/* <PaginationCard fetchResults={fetchResults} currentPage={currentPage} itemsPerPage={itemsPerPage} setItemsPerPage={setItemsPerPage} totalPages={totalPages}/> */}
+        <PaginationCard fetchResults={fetchResults} currentPage={currentPage} itemsPerPage={itemsPerPage} setItemsPerPage={setItemsPerPage} totalPages={totalPages} setCurrentPage = {setCurrentPage}/>
 
-      </ul>
-      
-    ))}
-  </ul>
-)}
-
-
-    </>
+     
+      </>
+    )}
+  </>
+  
   )
 }
 
