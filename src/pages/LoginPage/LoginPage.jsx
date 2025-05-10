@@ -45,6 +45,10 @@ const LoginPage = () => {
     return (
         <div className="container mt-4">
             <h3>Enter login credentials:</h3>
+            <div>
+                <p>admin username: admin12, password: adminpass321</p>
+                <p>customer username: jdoe21, password: password123</p>
+            </div>
             <div className="card my-3">
                 <div className="card-body">
                     <form onSubmit={handleLogin}  data-testid="login-form">

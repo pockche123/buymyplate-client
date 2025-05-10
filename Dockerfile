@@ -12,6 +12,9 @@ RUN npm install
  
 # Copy the rest of your application files
 COPY . .
+
+# Build the frontend
+RUN npm run build
  
 # Expose the port your app runs on
 EXPOSE 5173
