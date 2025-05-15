@@ -1,0 +1,8 @@
+.tag-item {
+    cursor: pointer;
+  }
+  
+  .tag-item:hover {
+    background-color: whitesmoke; /* or any shade of gray you prefer */
+  }
+  
